@@ -1,0 +1,21 @@
+{
+  "name": "timetable",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "TIMETABLE — 시간관리/학습 타임테이블 앱",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0",
+    "vitest": "^2.1.0",
+    "jsdom": "^25.0.0"
+  }
+}

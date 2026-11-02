@@ -1,0 +1,70 @@
+/* ---------- 테마 프리셋 ----------
+   기본(ember)은 base.css 의 :root 가 정의한다. 새 테마는 <html data-theme="id"> 일 때
+   같은 토큰을 덮어쓰는 블록으로 추가한다. (id 는 src/lib/themes.js 의 THEMES 와 같아야 함)
+
+   :root[data-theme="예시"]{
+     --bg-1:#...; --bg-2:#...; --bg-3:#...;                 배경 그라데이션 위/중간/아래
+     --ink:#...; --ink-rgb:r,g,b;                            글자색 (rgba 용 숫자도 함께)
+     --accent:#...; --accent-rgb:r,g,b; --accent-hi:#...; --accent-ink:#...;   강조색 / 밝은 강조 / 강조 위 글자
+     --sheet-1:#...; --sheet-2:#...;                         시트·팝업 배경 그라데이션
+     --shade:rgba(...); --pop-rgb:r,g,b; --bar-rgb:r,g,b; --shadow:rgba(...);
+     (밝은 테마면 color-scheme:light; --surface/--surface-strong/--surface-soft/--glow/--clock-rim/--on-danger 도 조정)
+   }
+*/
+
+/* 블랙 — 기본 다크: 뉴트럴 블랙 바탕, 그레이 글자·그레이 강조 */
+:root[data-theme="black"]{
+  --bg-1:#000000; --bg-2:#101010; --bg-3:#1e1e1e;
+  --ink:#d4d4d4; --ink-rgb:212,212,212;
+  --accent:#b0b0b0; --accent-rgb:176,176,176; --accent-hi:#d4d4d4; --accent-ink:#111111;
+  --sheet-1:#1c1c1c; --sheet-2:#0d0d0d;
+  --shade:rgba(0,0,0,.6); --pop-rgb:20,20,20; --bar-rgb:8,8,8; --shadow:rgba(0,0,0,.6);
+}
+
+/* 화이트 — 기본 라이트: 살짝 그레이 낀 흰 바탕, 짙은 그레이 글자·강조 */
+:root[data-theme="white"]{
+  color-scheme:light;
+  --bg-1:#ebebeb; --bg-2:#e2e2e2; --bg-3:#d7d7d7;
+  --ink:#222222; --ink-rgb:34,34,34;
+  --accent:#3c3c3c; --accent-rgb:60,60,60; --accent-hi:#222222; --accent-ink:#ebebeb;
+  --sheet-1:#f1f1f1; --sheet-2:#e5e5e5;
+  --shade:rgba(0,0,0,.32); --pop-rgb:241,241,241; --bar-rgb:236,236,236; --shadow:rgba(0,0,0,.12);
+  --glow:rgba(0,0,0,.015); --clock-rim:rgba(0,0,0,.25);
+  --surface:rgba(0,0,0,.05); --surface-strong:rgba(0,0,0,.1); --surface-soft:rgba(0,0,0,.03);
+  --danger:#c94f41; --danger-rgb:201,79,65; --on-danger:#ffffff; --holiday:#d0503c;
+}
+
+/* 크림 네이비 — Cream #FFF6E9 바탕 + Navy #002B62 글자·강조 (라이트) */
+:root[data-theme="cream"]{
+  color-scheme:light;
+  --bg-1:#fff6e9; --bg-2:#fbefdc; --bg-3:#f1e2c8;
+  --ink:#002b62; --ink-rgb:0,43,98;
+  --accent:#002b62; --accent-rgb:0,43,98; --accent-hi:#001a3d; --accent-ink:#fff6e9;
+  --sheet-1:#fffaf2; --sheet-2:#fbf0de;
+  --shade:rgba(0,20,50,.32); --pop-rgb:255,250,242; --bar-rgb:255,248,236; --shadow:rgba(0,43,98,.14);
+  --glow:rgba(0,43,98,.015); --clock-rim:rgba(0,43,98,.25);
+  --surface:rgba(0,43,98,.05); --surface-strong:rgba(0,43,98,.1); --surface-soft:rgba(0,43,98,.03);
+  --danger:#c24d3f; --danger-rgb:194,77,63; --on-danger:#fff6e9; --holiday:#cc4b38;
+}
+
+/* 그린 골드 — #EAEAEA 바탕 + #14332B 글자 + #A18254 강조 (라이트) */
+:root[data-theme="green-gold"]{
+  color-scheme:light;
+  --bg-1:#f3f3f3; --bg-2:#eaeaea; --bg-3:#dfdfdf;
+  --ink:#14332b; --ink-rgb:20,51,43;
+  --accent:#a18254; --accent-rgb:161,130,84; --accent-hi:#7d6338; --accent-ink:#14332b;
+  --sheet-1:#f7f7f7; --sheet-2:#eeeeee;
+  --shade:rgba(10,25,21,.34); --pop-rgb:247,247,247; --bar-rgb:243,243,243; --shadow:rgba(20,51,43,.14);
+  --glow:rgba(20,51,43,.015); --clock-rim:rgba(20,51,43,.25);
+  --surface:rgba(20,51,43,.05); --surface-strong:rgba(20,51,43,.1); --surface-soft:rgba(20,51,43,.03);
+  --danger:#b84a3c; --danger-rgb:184,74,60; --on-danger:#f3f3f3; --holiday:#c0482f;
+}
+
+/* 파스텔 블랙 — Neo Black #1B1B1B 바탕 + Baby Lilac #E4D2FF 글자 + Candy Peach #FFB3AB 강조 + Ice Mint #D2F8E5 포인트 */
+:root[data-theme="neo-pastel"]{
+  --bg-1:#111111; --bg-2:#1b1b1b; --bg-3:#2a2a2a;
+  --ink:#e4d2ff; --ink-rgb:228,210,255;
+  --accent:#ffb3ab; --accent-rgb:255,179,171; --accent-hi:#d2f8e5; --accent-ink:#2a1412;
+  --sheet-1:#262626; --sheet-2:#161616;
+  --shade:rgba(0,0,0,.6); --pop-rgb:30,30,30; --bar-rgb:17,17,17; --shadow:rgba(0,0,0,.6);
+}

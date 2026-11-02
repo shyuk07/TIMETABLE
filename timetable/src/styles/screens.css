@@ -1,0 +1,135 @@
+/* ---------- 전체 화면(로그인 · 온보딩 · 오류) ---------- */
+.screen{
+  position:fixed;inset:0;
+  overflow-y:auto;
+  z-index:20;
+  -webkit-overflow-scrolling:touch;
+}
+.screen-inner{
+  width:100%;
+  max-width:440px;
+  min-height:100%;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  padding:max(28px, env(safe-area-inset-top, 0px)) 24px calc(28px + env(safe-area-inset-bottom, 0px));
+}
+
+/* 로그인 */
+.auth-hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 0 28px;min-height:230px;}
+.auth-logo{width:68px;height:68px;color:var(--accent);margin-bottom:14px;}
+.auth-logo svg{width:100%;height:100%;}
+.auth-title{font-family:var(--font-display);font-style:normal;font-weight:500;font-size:38px;letter-spacing:5px;margin:0 0 8px;}
+.auth-sub{margin:0;color:var(--ink-dim);font-size:14.5px;line-height:1.65;}
+.auth-form{display:flex;flex-direction:column;}
+.auth-label{font-size:11.5px;letter-spacing:1px;color:var(--ink-faint);margin-bottom:6px;}
+.auth-input{
+  width:100%;
+  background:var(--surface);
+  border:1px solid rgba(var(--ink-rgb),.18);
+  border-radius:12px;
+  padding:14px;
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:16px;
+}
+.auth-input::placeholder{color:var(--ink-faint);}
+.auth-input:focus{outline:none;border-color:var(--accent);}
+.auth-btn{flex:none;width:100%;margin-top:12px;padding:14px;}
+.auth-btn:disabled{opacity:.6;cursor:default;}
+.auth-hint{margin:12px 0 0;color:var(--ink-faint);font-size:12px;line-height:1.6;text-align:center;}
+.auth-divider{display:flex;align-items:center;gap:12px;margin:22px 0 16px;color:var(--ink-faint);font-size:12px;}
+.auth-divider::before,.auth-divider::after{content:"";flex:1;height:1px;background:rgba(var(--ink-rgb),.16);}
+.auth-google{
+  flex:none;width:100%;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--surface);
+  color:var(--ink);
+  border:1px solid rgba(var(--ink-rgb),.2);
+  padding:13px;
+}
+.auth-google svg{width:18px;height:18px;}
+.auth-error{margin:14px 0 0;color:var(--danger);font-size:13px;text-align:center;line-height:1.5;}
+.auth-sent{text-align:center;padding:6px 0 4px;}
+.auth-sent-icon{font-size:34px;color:var(--accent);margin-bottom:6px;}
+.auth-sent h2{font-size:19px;margin:0 0 10px;}
+.auth-sent p{margin:0 0 14px;color:var(--ink-dim);font-size:14px;line-height:1.7;}
+.auth-sent b{color:var(--ink);font-weight:700;word-break:break-all;}
+.auth-link{display:block;margin:8px auto 0;background:none;border:none;color:var(--accent);font-family:var(--font-body);font-size:13.5px;cursor:pointer;padding:8px;}
+.auth-link:disabled{color:var(--ink-faint);cursor:default;}
+
+/* 온보딩 */
+.ob-top{display:flex;align-items:center;justify-content:space-between;min-height:32px;}
+.ob-dots{display:flex;gap:6px;}
+.ob-dots span{width:6px;height:6px;border-radius:3px;background:rgba(var(--ink-rgb),.22);transition:width .2s ease, background .2s ease;}
+.ob-dots span.done{background:rgba(var(--ink-rgb),.5);}
+.ob-dots span.on{width:20px;background:var(--accent);}
+.ob-skip{background:none;border:none;color:var(--ink-faint);font-family:var(--font-body);font-size:13px;cursor:pointer;padding:6px 0 6px 12px;}
+.ob-body{flex:1;padding:32px 0 24px;}
+.ob-icon{font-size:40px;color:var(--accent);margin-bottom:10px;}
+.ob-title{font-family:var(--font-display);font-weight:500;font-size:34px;line-height:1.2;margin:0 0 12px;}
+.ob-desc{margin:0 0 24px;color:var(--ink-dim);font-size:15px;line-height:1.7;}
+.ob-field input[type="text"]{font-size:16px;padding:14px;}
+.ob-tips{display:flex;flex-direction:column;gap:10px;}
+.ob-tip{background:var(--surface);border:1px solid rgba(var(--ink-rgb),.14);border-radius:14px;padding:14px 15px;display:flex;flex-direction:column;gap:5px;}
+.ob-tip b{font-size:14.5px;}
+.ob-tip span{font-size:13.5px;line-height:1.6;color:var(--ink-dim);}
+.ob-chips{margin-bottom:14px;}
+.ob-chips .chip{cursor:default;}
+.ob-add-chip{
+  flex:1 1 28%;
+  padding:9px 6px;border-radius:10px;
+  border:1px dashed rgba(var(--ink-rgb),.4);
+  background:transparent;color:var(--accent);
+  font-family:var(--font-body);font-size:13px;cursor:pointer;
+}
+.ob-foot{margin:0;color:var(--ink-faint);font-size:12.5px;line-height:1.6;}
+.ob-actions{display:flex;gap:12px;}
+.ob-card .set-row-label small{display:block;margin-top:3px;font-size:11.5px;font-weight:400;color:var(--ink-faint);}
+
+/* 오류 화면 */
+.fatal{text-align:center;margin:auto 0;}
+.fatal h1{font-size:20px;margin:0 0 10px;}
+.fatal p{color:var(--ink-dim);font-size:14px;line-height:1.7;margin:0 0 18px;}
+.fatal .btn{flex:none;padding:13px 28px;}
+
+/* 헤더의 설정 버튼 (예전엔 아무 동작 없는 메뉴 아이콘이었다) */
+button.menu-btn{cursor:pointer;padding:0;font-family:inherit;}
+
+/* 캘린더: 일정이 있는 날 점 */
+.cal-day.has-items .cal-dot{display:block;}
+.cal-day.selected .cal-dot{background:var(--accent-ink);}
+
+/* 카테고리 시트 입력/오류 */
+.cat-error{margin:-4px 0 12px;color:var(--danger);font-size:12.5px;}
+.cat-sheet .field input[type="text"]{font-size:16px;}
+
+/* 입력칸 포커스 (브라우저 기본 흰 테두리 대신) */
+.ob-field input[type="text"]:focus,
+.cat-sheet .field input[type="text"]:focus,
+.sheet .field input[type="text"]:focus{outline:none;border-color:var(--accent);}
+
+/* 시스템 알림이 막힌 환경에서 대신 쓰는 앱 안 알림 */
+.inapp-alert{
+  position:fixed;
+  top:calc(10px + env(safe-area-inset-top, 0px));
+  left:50%;
+  transform:translateX(-50%);
+  width:calc(100% - 32px);
+  max-width:408px;
+  display:flex;align-items:center;gap:12px;
+  padding:12px 12px 12px 16px;
+  background:rgba(var(--pop-rgb),.97);
+  border:1px solid var(--accent);
+  border-radius:14px;
+  box-shadow:0 10px 28px var(--shadow);
+  z-index:60;
+}
+.inapp-alert-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;}
+.inapp-alert-text b{font-size:14.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.inapp-alert-text span{font-size:12.5px;color:var(--ink-dim);}
+.inapp-alert-ok{
+  flex-shrink:0;border:none;border-radius:10px;padding:9px 14px;cursor:pointer;
+  background:linear-gradient(160deg,var(--accent-hi),var(--accent));color:var(--accent-ink);
+  font-family:var(--font-body);font-size:13px;font-weight:700;
+}

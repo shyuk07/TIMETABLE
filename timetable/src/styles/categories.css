@@ -1,0 +1,98 @@
+.cat-backdrop{
+  position:fixed;inset:0;
+  background:var(--shade);
+  z-index:36;
+}
+.cat-sheet{
+  position:fixed;
+  left:50%;
+  bottom:0;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:440px;
+  background:linear-gradient(180deg,var(--sheet-1),var(--sheet-2));
+  border:1px solid rgba(var(--ink-rgb),.14);
+  border-bottom:none;
+  border-radius:22px 22px 0 0;
+  padding:20px 20px calc(22px + env(safe-area-inset-bottom, 0px));
+  z-index:37;
+  box-shadow:0 -16px 40px var(--shadow);
+}
+.cat-sheet h2{
+  font-family:var(--font-body);
+  font-weight:700;
+  font-size:20px;
+  margin:0 0 16px;
+}
+
+.chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+.chip{
+  position:relative;
+  flex:1 1 28%;
+  text-align:center;
+  padding:9px 6px;
+  border-radius:10px;
+  border:1px solid rgba(var(--ink-rgb),.18);
+  background:var(--surface);
+  font-size:13px;
+  color:var(--ink-dim);
+  cursor:pointer;
+  user-select:none;
+  -webkit-user-select:none;
+  touch-action:manipulation;
+}
+.chip[data-active="true"]{background:var(--chip-bg);color:var(--chip-ink);border-color:var(--chip-bg);}
+.chip.delete-armed{
+  animation:chip-armed-pulse .5s ease-in-out infinite alternate;
+}
+@keyframes chip-armed-pulse{
+  from{ box-shadow:0 0 0 1px var(--danger); }
+  to{ box-shadow:0 0 0 1px var(--danger), 0 0 0 4px rgba(var(--danger-rgb),.18); }
+}
+.chip-delete-badge{
+  position:absolute;
+  top:-8px;right:-8px;
+  width:20px;height:20px;
+  border-radius:50%;
+  border:2px solid var(--sheet-2);
+  background:var(--danger);
+  color:var(--on-danger);
+  font-size:13px;
+  line-height:1;
+  font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  padding:0;
+  cursor:pointer;
+  box-shadow:0 2px 6px var(--shadow);
+  z-index:5;
+}
+.field-label-row{display:flex;align-items:center;justify-content:space-between;margin-top:16px;margin-bottom:6px;}
+.field-label-row label{
+  font-size:11.5px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:var(--ink-faint);
+}
+.add-cat-btn{
+  width:22px;height:22px;
+  border-radius:50%;
+  border:1px solid rgba(var(--ink-rgb),.28);
+  background:var(--surface);
+  color:var(--ink-dim);
+  font-size:15px;
+  line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  padding:0;
+}
+.cat-swatch-row{display:flex;flex-wrap:wrap;gap:10px;}
+.cat-swatch{
+  width:34px;height:34px;
+  border-radius:50%;
+  border:2px solid transparent;
+  cursor:pointer;
+  padding:0;
+}
+.cat-swatch[data-active="true"]{
+  border-color:var(--ink);
+}
