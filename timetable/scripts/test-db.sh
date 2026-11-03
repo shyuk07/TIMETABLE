@@ -9,4 +9,5 @@ psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -q \
   -f tests/db_stub_auth.sql \
   -f supabase/migrations/0001_init.sql \
   -f supabase/migrations/0002_theme.sql \
+  -f supabase/migrations/0003_default_black.sql \
   -f tests/rls_scenario.sql

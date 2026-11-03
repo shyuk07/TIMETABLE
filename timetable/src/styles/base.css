@@ -1,27 +1,23 @@
 :root{
-  /* ---- 테마 토큰 (기본 테마 "ember"). 다른 테마는 themes.css 가 같은 이름을 덮어쓴다 ---- */
-  --bg-1:#1d1815;
-  --bg-2:#6a4a37;
-  --bg-3:#dfa365;
-  --ink:#faf1e3;
-  --ink-rgb:250,241,227;
-  --accent-rgb:238,171,109;
-  --accent-hi:#ffd9ab;
-  --sheet-1:#332218;
-  --sheet-2:#20160f;
-  --shade:rgba(10,7,4,.5);
-  --pop-rgb:24,17,11;
-  --bar-rgb:19,13,9;
+  /* ---- 테마 토큰 (기본 테마 "black"). 다른 테마는 themes.css 가 같은 이름을 덮어쓴다 ---- */
+  --bg:#101010;
+  --ink:#d4d4d4;
+  --ink-rgb:212,212,212;
+  --accent-rgb:176,176,176;
+  --accent-hi:#d4d4d4;
+  --sheet:#0d0d0d;
+  --shade:rgba(0,0,0,.6);
+  --pop-rgb:20,20,20;
+  --bar-rgb:8,8,8;
   --danger-rgb:217,122,108;
-  --glow:rgba(255,255,255,.05);
   --clock-rim:rgba(255,255,255,.35);
   --surface-soft:rgba(255,255,255,.05);
   color-scheme:dark;
   --ink-dim:rgba(var(--ink-rgb),.64);
   --ink-faint:rgba(var(--ink-rgb),.32);
   --line:rgba(var(--ink-rgb),.22);
-  --accent:#eeab6d;
-  --accent-ink:#2a1a0d;
+  --accent:#b0b0b0;
+  --accent-ink:#111111;
   --study:#e3a765;
   --study-ink:#2c1c0c;
   --break:#96b78f;
@@ -39,7 +35,7 @@
   --danger:#d97a6c;
   --on-danger:#2a1008;
   --holiday:#e2836d;
-  --shadow:rgba(10,6,3,.45);
+  --shadow:rgba(0,0,0,.6);
   --font-display:"Newsreader",ui-serif,Georgia,serif;
   --font-body:"Manrope",ui-sans-serif,system-ui,sans-serif;
 }
@@ -49,10 +45,7 @@ body{
   margin:0;
   font-family:var(--font-body);
   color:var(--ink);
-  background:
-    radial-gradient(120% 60% at 50% 0%, var(--glow), transparent 60%),
-    linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 52%, var(--bg-3) 100%);
-  background-attachment:fixed;
+  background:var(--bg);
   -webkit-font-smoothing:antialiased;
   -webkit-user-select:none;
   user-select:none;

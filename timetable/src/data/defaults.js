@@ -25,7 +25,7 @@ export const DEFAULT_SETTINGS = {
   weekStart: 0, // 0=일요일, 1=월요일
   notifyEnabled: false,
   notifyMinutesBefore: 10,
-  theme: "ember", // 배경 테마 id (src/lib/themes.js)
+  theme: "black", // 배경 테마 id (src/lib/themes.js)
 };
 
 export const NOTIFY_MINUTES_OPTIONS = [0, 5, 10, 15, 30, 60];

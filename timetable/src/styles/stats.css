@@ -13,7 +13,7 @@
   max-width:440px;
   max-height:92vh;
   overflow-y:auto;
-  background:linear-gradient(180deg,var(--sheet-1),var(--sheet-2));
+  background:var(--sheet);
   border:1px solid rgba(var(--ink-rgb),.14);
   border-bottom:none;
   border-radius:22px 22px 0 0;

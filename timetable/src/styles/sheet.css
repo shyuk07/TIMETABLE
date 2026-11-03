@@ -11,7 +11,7 @@
   transform:translateX(-50%);
   width:100%;
   max-width:440px;
-  background:linear-gradient(180deg,var(--sheet-1),var(--sheet-2));
+  background:var(--sheet);
   border:1px solid rgba(var(--ink-rgb),.14);
   border-bottom:none;
   border-radius:22px 22px 0 0;
@@ -97,7 +97,7 @@
   font-weight:700;
   cursor:pointer;
 }
-.btn-save{background:linear-gradient(160deg,var(--accent-hi),var(--accent));color:var(--accent-ink);}
+.btn-save{background:var(--accent);color:var(--accent-ink);}
 .btn-cancel{background:var(--surface);color:var(--ink-dim);border:1px solid rgba(var(--ink-rgb),.18);}
 .btn-delete{
   width:100%;

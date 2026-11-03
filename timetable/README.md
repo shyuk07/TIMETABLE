@@ -56,7 +56,7 @@ timetable/
 │  │  └─ notify.js             일정 시작 알림 (시스템 알림 → 막히면 앱 안 배너)
 │  ├─ lib/                     dates · holidays(2025–2030) · themes · toast · dom · emitter
 │  └─ styles/                  CSS (화면별로 분리)
-├─ supabase/migrations/                0001_init.sql(테이블 5개 + 트리거 + RLS), 0002_theme.sql(배경 테마)
+├─ supabase/migrations/                0001_init.sql(테이블 5개 + 트리거 + RLS), 0002_theme.sql(배경 테마), 0003_default_black.sql(기본 테마 black)
 ├─ tests/                      vitest 단위 테스트 + Postgres RLS 시나리오(SQL)
 ├─ docs/DEPLOY.md              Supabase 연결 · 배포 · 앱스토어 가이드
 └─ .github/workflows/          CI(테스트+빌드), GitHub Pages 배포

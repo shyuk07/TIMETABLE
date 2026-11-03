@@ -5,7 +5,7 @@
 ## 1. Supabase 연결 (서비스 모드)
 
 1. <https://supabase.com> 에서 프로젝트 생성 (리전은 `Northeast Asia (Seoul)` 권장).
-2. **SQL Editor** 에 `supabase/migrations/0001_init.sql` 전체를 붙여넣고 **Run**, 이어서 `0002_theme.sql` 도 같은 방법으로 **Run**.
+2. **SQL Editor** 에 `supabase/migrations/0001_init.sql` 전체를 붙여넣고 **Run**, 이어서 `0002_theme.sql`, `0003_default_black.sql` 도 같은 방법으로 차례로 **Run**.
    → 테이블 5개, 가입 시 기본 카테고리 6개 자동 생성 트리거, RLS 정책, 배경 테마 컬럼이 만들어집니다. (번호 순서대로, 한 번씩만)
 3. **Authentication → Providers**
    - **Email**: 켜져 있는지 확인 (기본값). 비밀번호 없이 로그인 링크(매직 링크)를 쓰므로 *Confirm email* 설정과 무관하게 동작합니다.
@@ -65,7 +65,7 @@ npx cap open android  # Android Studio (Google Play 1회 $25)
 
 ## 운영 체크리스트
 
-- [ ] `0001_init.sql`, `0002_theme.sql` 순서대로 실행 확인 (Table Editor 에 5개 테이블, 각 테이블 RLS *enabled*)
+- [ ] `0001_init.sql`, `0002_theme.sql`, `0003_default_black.sql` 순서대로 실행 확인 (Table Editor 에 5개 테이블, 각 테이블 RLS *enabled*)
 - [ ] Redirect URLs 에 배포 주소 추가
 - [ ] 커스텀 SMTP 연결
 - [ ] 새 계정으로 가입 → 기본 카테고리 6개가 보이는지 확인

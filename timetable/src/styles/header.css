@@ -70,12 +70,15 @@
   display:flex;
   align-items:center;
   gap:14px;
-  padding-block:6px 18px;
+  /* 아래 여백에 '지금' 라벨 자리 포함 (라벨은 흐름에서 빠져 있음) */
+  padding-block:6px 32px;
   flex-shrink:0;
 }
+/* 시계는 시간 숫자 줄과 중심을 맞추고, 라벨은 그 아래에 띄운다 */
+.now-hero > div:last-child{position:relative;}
 .now-clock{
   width:52px;height:52px;border-radius:50%;
-  background:radial-gradient(circle at 32% 28%, var(--accent-hi), var(--accent) 70%);
+  background:var(--accent);
   box-shadow:0 6px 16px var(--shadow), inset 0 0 0 1px var(--clock-rim);
   flex-shrink:0;
   position:relative;
@@ -95,5 +98,8 @@
   text-transform:uppercase;
   letter-spacing:1.4px;
   color:var(--ink-faint);
+  position:absolute;
+  top:100%;left:0;
   margin-top:4px;
+  white-space:nowrap;
 }

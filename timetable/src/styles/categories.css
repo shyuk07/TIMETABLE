@@ -10,7 +10,7 @@
   transform:translateX(-50%);
   width:100%;
   max-width:440px;
-  background:linear-gradient(180deg,var(--sheet-1),var(--sheet-2));
+  background:var(--sheet);
   border:1px solid rgba(var(--ink-rgb),.14);
   border-bottom:none;
   border-radius:22px 22px 0 0;
@@ -42,6 +42,8 @@
   touch-action:manipulation;
 }
 .chip[data-active="true"]{background:var(--chip-bg);color:var(--chip-ink);border-color:var(--chip-bg);}
+/* 블랙(기본 테마): 선택된 카테고리는 색 대신 그레이 강조색 하나로 통일 */
+:root:not([data-theme]) .chip[data-active="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);}
 .chip.delete-armed{
   animation:chip-armed-pulse .5s ease-in-out infinite alternate;
 }
@@ -54,7 +56,7 @@
   top:-8px;right:-8px;
   width:20px;height:20px;
   border-radius:50%;
-  border:2px solid var(--sheet-2);
+  border:2px solid var(--sheet);
   background:var(--danger);
   color:var(--on-danger);
   font-size:13px;

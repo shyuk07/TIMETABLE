@@ -22,7 +22,7 @@ describe("local repo — 기본값", () => {
   });
   it("온보딩 전 프로필, 기본 설정", async () => {
     expect((await repo.profile.get()).onboarded).toBe(false);
-    expect(await repo.settings.get()).toEqual({ weekStart: 0, notifyEnabled: false, notifyMinutesBefore: 10, theme: "ember" });
+    expect(await repo.settings.get()).toEqual({ weekStart: 0, notifyEnabled: false, notifyMinutesBefore: 10, theme: "black" });
   });
   it("저장한 데이터는 새 repo 인스턴스에서도 보인다 (새로고침)", async () => {
     await repo.profile.update({ displayName: "상혁", onboarded: true });
@@ -118,9 +118,9 @@ describe("local repo — 목표/설정", () => {
   });
   it("설정 부분 업데이트", async () => {
     await repo.settings.update({ weekStart: 1 });
-    expect(await repo.settings.get()).toEqual({ weekStart: 1, notifyEnabled: false, notifyMinutesBefore: 10, theme: "ember" });
+    expect(await repo.settings.get()).toEqual({ weekStart: 1, notifyEnabled: false, notifyMinutesBefore: 10, theme: "black" });
   });
-  it("테마: 기본 ember 저장 · 모르는 테마는 거부", async () => {
+  it("테마: ember 저장 · 모르는 테마는 거부", async () => {
     await repo.settings.update({ theme: "ember" });
     expect((await createLocalRepo(st).settings.get()).theme).toBe("ember");
     await expect(repo.settings.update({ theme: "neon-pink" })).rejects.toThrow("테마");

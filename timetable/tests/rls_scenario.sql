@@ -7,7 +7,7 @@ insert into auth.users (id, email, raw_user_meta_data) values
 do $$ begin
   assert (select count(*) from public.categories) = 12, '가입 시 기본 카테고리 6개씩';
   assert (select count(*) from public.user_settings) = 2, '설정 자동 생성';
-  assert (select count(*) from public.user_settings where theme = 'ember') = 2, '기본 테마 ember';
+  assert (select count(*) from public.user_settings where theme = 'black') = 2, '기본 테마 black';
   assert (select display_name from public.profiles where id='bbbbbbbb-0000-0000-0000-000000000002') = '비비', '구글 이름 반영';
   assert (select display_name from public.profiles where id='aaaaaaaa-0000-0000-0000-000000000001') = 'a', '이메일 앞부분';
 end $$;

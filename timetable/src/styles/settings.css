@@ -7,7 +7,7 @@
   width:100%;max-width:440px;
   max-height:92vh;
   overflow-y:auto;
-  background:linear-gradient(180deg,var(--sheet-1),var(--sheet-2));
+  background:var(--sheet);
   border:1px solid rgba(var(--ink-rgb),.14);border-bottom:none;
   border-radius:22px 22px 0 0;
   padding:20px 20px calc(24px + env(safe-area-inset-bottom, 0px));
@@ -26,7 +26,7 @@
 .set-profile{display:flex;align-items:center;gap:14px;padding:14px;}
 .set-avatar{
   width:46px;height:46px;flex-shrink:0;border-radius:50%;
-  background:linear-gradient(160deg,var(--accent-hi),var(--accent));color:var(--accent-ink);
+  background:var(--accent);color:var(--accent-ink);
   display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;
 }
 .set-profile-main{flex:1;min-width:0;}
@@ -100,7 +100,8 @@
   transition:box-shadow .15s ease, transform .15s ease;
 }
 .theme-opt[aria-checked="true"]{color:var(--ink);font-weight:700;}
-.theme-opt[aria-checked="true"] .theme-swatch{box-shadow:0 0 0 2px var(--sheet-2), 0 0 0 4px var(--accent);}
-.theme-opt:focus-visible .theme-swatch{box-shadow:0 0 0 2px var(--sheet-2), 0 0 0 4px var(--ink);}
+/* 선택 테두리는 그 테마 자신의 색(--swatch, themes.js 가 인라인으로 넣음) */
+.theme-opt[aria-checked="true"] .theme-swatch{box-shadow:0 0 0 2px var(--sheet), 0 0 0 4px var(--swatch);}
+.theme-opt:focus-visible .theme-swatch{box-shadow:0 0 0 2px var(--sheet), 0 0 0 4px var(--ink);}
 .ob-theme .theme-grid{padding:12px;}
 .ob-card + .ob-card{margin-top:12px;}

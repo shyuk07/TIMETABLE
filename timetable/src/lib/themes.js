@@ -1,17 +1,17 @@
 // 배경 테마 프리셋. 실제 색 값은 src/styles/themes.css (id 와 같아야 함),
-// 여기에는 선택 UI용 미리보기 색(그라데이션 3색)만 둔다.
+// 여기에는 선택 UI용 미리보기 색(themes.css 의 --bg 와 같은 단색)만 둔다.
 // DB(user_settings.theme)는 id 형식만 검사하므로 테마를 추가해도 마이그레이션이 필요 없다.
 
 export const THEMES = [
-  { id: "ember", name: "엠버", colors: ["#1d1815", "#6a4a37", "#dfa365"] },
-  { id: "black", name: "블랙", colors: ["#000000", "#101010", "#1e1e1e"] },
-  { id: "white", name: "화이트", colors: ["#ebebeb", "#e2e2e2", "#d7d7d7"] },
-  { id: "cream", name: "크림 네이비", colors: ["#fff6e9", "#fbefdc", "#f1e2c8"] },
-  { id: "green-gold", name: "그린 골드", colors: ["#f3f3f3", "#eaeaea", "#dfdfdf"] },
-  { id: "neo-pastel", name: "파스텔 블랙", colors: ["#111111", "#1b1b1b", "#2a2a2a"] },
-  // 새 테마는 여기에 { id, name, colors } 를 추가하고, src/styles/themes.css 에 같은 id 의 블록을 만든다.
+  { id: "black", name: "블랙", color: "#101010" },
+  { id: "ember", name: "엠버", color: "#2e221b" },
+  { id: "white", name: "화이트", color: "#e2e2e2" },
+  { id: "cream", name: "크림 네이비", color: "#fff6e9" },
+  { id: "green-gold", name: "그린 골드", color: "#eaeaea" },
+  { id: "neo-pastel", name: "파스텔 블랙", color: "#1b1b1b" },
+  // 새 테마는 여기에 { id, name, color } 를 추가하고, src/styles/themes.css 에 같은 id 의 블록을 만든다.
 ];
-export const DEFAULT_THEME = "ember";
+export const DEFAULT_THEME = "black";
 const IDS = THEMES.map((t) => t.id);
 const CACHE_KEY = "timetable:theme";
 
@@ -32,7 +32,7 @@ export function applyTheme(id) {
     /* 저장소 사용 불가 — 무시 */
   }
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute("content", theme.colors[0]);
+  if (meta) meta.setAttribute("content", theme.color);
 }
 
 /** 선택할 테마가 2개 이상일 때만 쓰는 UI */
@@ -46,7 +46,7 @@ export function themePickerHtml(selectedId) {
   return `<div class="theme-grid" role="radiogroup" aria-label="배경 테마">${THEMES.map(
     (t) => `
     <button type="button" class="theme-opt" role="radio" aria-checked="${t.id === selectedId}" data-theme-id="${t.id}">
-      <span class="theme-swatch" style="background:linear-gradient(160deg,${t.colors[0]} 0%,${t.colors[1]} 55%,${t.colors[2]} 100%)"></span>
+      <span class="theme-swatch" style="--swatch:${t.color};background:var(--swatch)"></span>
       <span class="theme-name">${t.name}</span>
     </button>`
   ).join("")}</div>`;
