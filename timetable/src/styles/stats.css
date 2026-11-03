@@ -137,7 +137,7 @@
   white-space:nowrap;
 }
 .stat-bar-col.today .stat-bar-label{
-  color:var(--accent);
+  color:var(--accent-text, var(--accent));
   font-weight:700;
 }
 .stat-chart.compact{

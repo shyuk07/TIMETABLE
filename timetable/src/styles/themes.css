@@ -32,6 +32,7 @@
   --sheet:#e5e5e5;
   --shade:rgba(0,0,0,.32); --pop-rgb:241,241,241; --bar-rgb:236,236,236; --shadow:rgba(0,0,0,.12);
   --clock-rim:rgba(0,0,0,.25);
+  --ink-dim:rgba(var(--ink-rgb),.78); --ink-faint:rgba(var(--ink-rgb),.55); /* 밝은 바탕이라 흐린 글씨를 더 진하게 */
   --surface:rgba(0,0,0,.05); --surface-strong:rgba(0,0,0,.1); --surface-soft:rgba(0,0,0,.03);
   --danger:#c94f41; --danger-rgb:201,79,65; --on-danger:#ffffff; --holiday:#d0503c;
 }
@@ -62,11 +63,16 @@
   --danger:#b84a3c; --danger-rgb:184,74,60; --on-danger:#f3f3f3; --holiday:#c0482f;
 }
 
-/* 파스텔 블랙 — Neo Black #1B1B1B 바탕 + Baby Lilac #E4D2FF 글자 + Candy Peach #FFB3AB 강조 + Ice Mint #D2F8E5 포인트 */
+/* 파스텔(id neo-pastel) — Pink Marshmallow(PANTONE 12-2907) #F0E1E8 바탕 + 핑크 #F2C6E2 칸·꾸밈 + 라벤더 #E8D6FB 포인트, 짙은 자두색 글자 (라이트) */
 :root[data-theme="neo-pastel"]{
-  --bg:#1b1b1b;
-  --ink:#e4d2ff; --ink-rgb:228,210,255;
-  --accent:#ffb3ab; --accent-rgb:255,179,171; --accent-hi:#d2f8e5; --accent-ink:#2a1412;
-  --sheet:#161616;
-  --shade:rgba(0,0,0,.6); --pop-rgb:30,30,30; --bar-rgb:17,17,17; --shadow:rgba(0,0,0,.6);
+  color-scheme:light;
+  --bg:#f0e1e8;
+  --ink:#4b3354; --ink-rgb:75,51,84;
+  --accent:#e8d6fb; --accent-rgb:232,214,251; --accent-hi:#f3eafd; --accent-ink:#4b3354;
+  --sheet:#fdf2f8;
+  --shade:rgba(75,40,70,.28); --pop-rgb:253,242,248; --bar-rgb:238,213,232; --shadow:rgba(150,90,130,.18);
+  --clock-rim:rgba(120,80,150,.3); --accent-text:#8a5cc7;
+  --ink-dim:rgba(var(--ink-rgb),.78); --ink-faint:rgba(var(--ink-rgb),.55);
+  --surface:rgba(242,198,226,.5); --surface-strong:rgba(242,198,226,.85); --surface-soft:rgba(242,198,226,.28);
+  --danger:#c2506a; --danger-rgb:194,80,106; --on-danger:#ffffff; --holiday:#d0506a;
 }

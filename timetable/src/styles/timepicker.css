@@ -41,7 +41,7 @@
   cursor:pointer;
 }
 .tp-cancel{color:var(--ink-faint);}
-.tp-done{color:var(--accent);}
+.tp-done{color:var(--accent-text, var(--accent));}
 .tp-title{
   font-size:13.5px;
   font-weight:700;

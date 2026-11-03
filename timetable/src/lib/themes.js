@@ -8,7 +8,7 @@ export const THEMES = [
   { id: "white", name: "화이트", color: "#e2e2e2" },
   { id: "cream", name: "네이비", color: "#fff6e9" },
   { id: "green-gold", name: "그린", color: "#e0ecde" },
-  { id: "neo-pastel", name: "파스텔 블랙", color: "#1b1b1b" },
+  { id: "neo-pastel", name: "파스텔", color: "#f0e1e8" },
   // 새 테마는 여기에 { id, name, color } 를 추가하고, src/styles/themes.css 에 같은 id 의 블록을 만든다.
 ];
 export const DEFAULT_THEME = "black";

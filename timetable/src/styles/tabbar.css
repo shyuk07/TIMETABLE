@@ -31,14 +31,15 @@
   font-family:var(--font-body);
 }
 .tab-item svg{width:21px;height:21px;}
-.tab-item.active{color:var(--accent);}
+/* --accent-text: 강조색 글자·아이콘. 강조색이 연해 글자로 안 보이는 테마만 따로 지정 (없으면 강조색) */
+.tab-item.active{color:var(--accent-text, var(--accent));}
 .tab-item.active .tab-dot{
   display:block;
 }
 .tab-dot{
   display:none;
   width:3px;height:3px;border-radius:50%;
-  background:var(--accent);
+  background:var(--accent-text, var(--accent));
   margin-top:-1px;
 }
 

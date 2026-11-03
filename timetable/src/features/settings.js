@@ -80,7 +80,7 @@ export function initSettings({ onSignOut, onReplayOnboarding }) {
         <h3 class="set-h">카테고리</h3>
         <div class="set-card set-cats">
           ${catRows}
-          <button type="button" class="set-row-btn accent" data-action="cat-add">+ 카테고리 추가</button>
+          <button type="button" class="set-row-btn" data-action="cat-add">+ 카테고리 추가</button>
         </div>
         <p class="set-foot">기본 카테고리는 이름·색만 바꿀 수 있고 삭제할 수 없어요. 카테고리를 삭제하면 그 일정은 '기타'로 옮겨져요.</p>
       </section>
