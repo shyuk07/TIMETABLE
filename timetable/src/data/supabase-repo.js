@@ -15,6 +15,7 @@ function fail(error, fallback = "요청을 처리하지 못했어요") {
 const toCategory = (r) => ({ id: r.id, name: r.name, bg: r.bg, ink: r.ink, sortOrder: r.sort_order, defaultKey: r.default_key });
 const toSchedule = (r) => ({ id: r.id, date: r.date, title: r.title, start: normTime(r.start_time), end: normTime(r.end_time), categoryId: r.category_id });
 const toGoal = (r) => ({ categoryId: r.category_id, period: r.period, targetMinutes: r.target_minutes });
+const toDated = (r) => ({ id: r.id, title: r.title, date: r.date });
 
 export function createSupabaseRepo(client) {
   let uid = null;
@@ -203,6 +204,39 @@ export function createSupabaseRepo(client) {
           .upsert({ user_id: id, category_id: categoryId, period, target_minutes: Math.round(targetMinutes) }, { onConflict: "user_id,category_id,period" });
         fail(error);
       },
+    },
+
+    // 스키마: supabase/migrations/0004_d_days.sql, 0005_memos.sql
+    ddays: datedItems(client, "d_days"),
+    memos: datedItems(client, "memos"),
+  };
+}
+
+// 디데이·메모: {id, title, date} 행을 날짜 순으로 다루는 같은 모양의 테이블
+function datedItems(client, table) {
+  const cols = "id, title, date";
+  return {
+    async list() {
+      const { data, error } = await client.from(table).select(cols).order("date");
+      fail(error);
+      return data.map(toDated);
+    },
+    async create(input) {
+      const { data, error } = await client.from(table).insert({ title: input.title.trim(), date: input.date }).select(cols).single();
+      fail(error);
+      return toDated(data);
+    },
+    async update(id, patch) {
+      const row = {};
+      if (patch.title !== undefined) row.title = patch.title.trim();
+      if (patch.date !== undefined) row.date = patch.date;
+      const { data, error } = await client.from(table).update(row).eq("id", id).select(cols).single();
+      fail(error);
+      return toDated(data);
+    },
+    async remove(id) {
+      const { error } = await client.from(table).delete().eq("id", id);
+      fail(error);
     },
   };
 }

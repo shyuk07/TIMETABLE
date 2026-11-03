@@ -30,3 +30,5 @@ export const DEFAULT_SETTINGS = {
 
 export const NOTIFY_MINUTES_OPTIONS = [0, 5, 10, 15, 30, 60];
 export const CATEGORY_NAME_MAX = 10;
+export const DDAY_TITLE_MAX = 30;
+export const MEMO_TEXT_MAX = 50;

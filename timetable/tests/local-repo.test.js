@@ -126,3 +126,50 @@ describe("local repo — 목표/설정", () => {
     await expect(repo.settings.update({ theme: "neon-pink" })).rejects.toThrow("테마");
   });
 });
+
+describe("local repo — 디데이", () => {
+  it("추가 → 날짜 순 목록, 새로고침 후에도 유지", async () => {
+    await repo.ddays.create({ title: " 기말고사 ", date: "2026-12-10" });
+    await repo.ddays.create({ title: "수능", date: "2026-11-19" });
+    const list = await createLocalRepo(st).ddays.list();
+    expect(list.map((d) => [d.title, d.date])).toEqual([
+      ["수능", "2026-11-19"],
+      ["기말고사", "2026-12-10"],
+    ]);
+  });
+  it("빈 이름 · 31자 이상 · 잘못된 날짜 거부", async () => {
+    await expect(repo.ddays.create({ title: "  ", date: "2026-11-19" })).rejects.toThrow("이름");
+    await expect(repo.ddays.create({ title: "가".repeat(31), date: "2026-11-19" })).rejects.toThrow("30자");
+    await expect(repo.ddays.create({ title: "수능", date: "11/19" })).rejects.toThrow("날짜");
+  });
+  it("수정 · 삭제", async () => {
+    const d = await repo.ddays.create({ title: "수능", date: "2026-11-19" });
+    await repo.ddays.update(d.id, { date: "2026-11-20" });
+    expect((await repo.ddays.list())[0]).toMatchObject({ title: "수능", date: "2026-11-20" });
+    await repo.ddays.remove(d.id);
+    expect(await repo.ddays.list()).toEqual([]);
+  });
+  it("디데이 기능 전에 저장된 데이터도 그대로 열린다", async () => {
+    st.setItem("timetable:v2", JSON.stringify({ profile: {}, settings: {}, categories: [], schedules: [], goals: [] }));
+    expect(await createLocalRepo(st).ddays.list()).toEqual([]);
+  });
+});
+
+describe("local repo — 메모", () => {
+  it("디데이와 따로 저장되고 날짜 순으로 나온다", async () => {
+    await repo.memos.create({ title: "준비물 챙기기", date: "2026-11-18" });
+    await repo.memos.create({ title: "병원", date: "2026-11-05" });
+    await repo.ddays.create({ title: "수능", date: "2026-11-19" });
+    expect((await createLocalRepo(st).memos.list()).map((m) => m.title)).toEqual(["병원", "준비물 챙기기"]);
+    expect((await repo.ddays.list()).map((d) => d.title)).toEqual(["수능"]);
+  });
+  it("빈 메모 · 51자 이상 거부, 수정 · 삭제", async () => {
+    await expect(repo.memos.create({ title: " ", date: "2026-11-18" })).rejects.toThrow("메모");
+    await expect(repo.memos.create({ title: "가".repeat(51), date: "2026-11-18" })).rejects.toThrow("50자");
+    const m = await repo.memos.create({ title: "병원", date: "2026-11-05" });
+    await repo.memos.update(m.id, { title: "치과" });
+    expect((await repo.memos.list())[0]).toMatchObject({ title: "치과", date: "2026-11-05" });
+    await repo.memos.remove(m.id);
+    expect(await repo.memos.list()).toEqual([]);
+  });
+});

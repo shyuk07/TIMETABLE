@@ -13,6 +13,16 @@ export async function loadCore() {
   state.goals = goals;
   bus.emit("settings");
   bus.emit("categories");
+  // 디데이·메모는 부가 기능이라, 불러오지 못해도(예: 서버에 0004/0005 마이그레이션 전) 앱은 그대로 연다
+  for (const key of ["ddays", "memos"]) {
+    try {
+      state[key] = await repo[key].list();
+    } catch (e) {
+      console.warn(`[timetable] ${key} unavailable`, e);
+      state[key] = [];
+    }
+    bus.emit(key);
+  }
 }
 
 let itemsToken = 0;
@@ -90,6 +100,21 @@ export async function setWeeklyGoal(categoryId, minutes) {
   await state.repo.goals.set(categoryId, "week", minutes);
   state.goals = await state.repo.goals.list();
   bus.emit("goals");
+}
+
+// ---- 디데이 · 메모 ({id, title, date} 로 같은 모양) ----
+// kind: "ddays" | "memos" — repo 이름, state 키, bus 이벤트 이름이 모두 같다
+export async function saveDated(kind, { id, title, date }) {
+  if (id) await state.repo[kind].update(id, { title, date });
+  else await state.repo[kind].create({ title, date });
+  state[kind] = await state.repo[kind].list();
+  bus.emit(kind);
+}
+
+export async function removeDated(kind, id) {
+  await state.repo[kind].remove(id);
+  state[kind] = await state.repo[kind].list();
+  bus.emit(kind);
 }
 
 // ---- 설정 / 프로필 ----

@@ -7,6 +7,8 @@ import { state, bus, categoryById } from "../state/store.js";
 import { toMin, todayStr } from "../lib/dates.js";
 
 let timers = [];
+// 이미 보낸 알림 (날짜|id|시작|알림시점). 다시 예약할 때 같은 알림이 또 뜨지 않게 한다
+const fired = new Set();
 
 export function notificationsSupported() {
   return typeof Notification !== "undefined";
@@ -82,9 +84,23 @@ export async function rescheduleNotifications() {
   const midnight = new Date();
   midnight.setHours(0, 0, 0, 0);
   const now = Date.now();
+  const day = todayStr();
   items.forEach((it) => {
-    const at = midnight.getTime() + (toMin(it.start) - notifyMinutesBefore) * 60000;
-    if (at > now) timers.push(setTimeout(() => fire(it, notifyMinutesBefore), at - now));
+    const key = `${day}|${it.id}|${it.start}|${notifyMinutesBefore}`;
+    if (fired.has(key)) return;
+    const startAt = midnight.getTime() + toMin(it.start) * 60000;
+    const at = startAt - notifyMinutesBefore * 60000;
+    const send = (before) => {
+      fired.add(key);
+      fire(it, before);
+    };
+    if (at > now) {
+      timers.push(setTimeout(() => send(notifyMinutesBefore), at - now));
+    } else if (startAt > now) {
+      // 알림 시각은 지났지만 아직 시작 전 (예: 5분 뒤 시작하는 일정을 방금 추가) → 남은 시간으로 바로 알린다
+      send(Math.ceil((startAt - now) / 60000));
+    }
+    // 이미 시작한 일정은 알리지 않는다
   });
 }
 
@@ -96,6 +112,7 @@ export function initNotifications() {
   };
   bus.on("items", later);
   bus.on("settings", later);
+  bus.on("daychange", later); // 자정이 지나면 새 날의 일정으로 다시 예약
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") later();
   });

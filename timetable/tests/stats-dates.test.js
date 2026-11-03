@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { dayBuckets, weekBuckets, monthBuckets, yearBuckets, barHeightPx, fixedMaxMins } from "../src/features/stats.js";
-import { startOfWeek, weekdayLabels, toMin, normTime, fmtDuration, toDateStr } from "../src/lib/dates.js";
+import { startOfWeek, weekdayLabels, toMin, normTime, fmtDuration, toDateStr, daysBetween, ddayLabel } from "../src/lib/dates.js";
 import { monthHolidaySummary } from "../src/lib/holidays.js";
 
 const NOW = new Date(2026, 10, 2, 14, 20); // 2026-11-02 월요일 14:20
@@ -76,5 +76,19 @@ describe("holidays", () => {
   it("공휴일 요약: 연속 같은 이름은 범위로", () => {
     expect(monthHolidaySummary(2026, 8)).toContain("9.24–26 추석");
     expect(monthHolidaySummary(2026, 9)).toContain("10.3 개천절");
+  });
+});
+
+describe("디데이 계산", () => {
+  it("daysBetween: 달·해를 넘어도 달력 날짜로 센다", () => {
+    expect(daysBetween("2026-11-03", "2026-11-19")).toBe(16);
+    expect(daysBetween("2026-12-31", "2027-01-01")).toBe(1);
+    expect(daysBetween("2026-03-01", "2026-02-28")).toBe(-1);
+  });
+  it("ddayLabel: D-n / D-Day / 지난 날은 그날을 1일째로 세는 D+n", () => {
+    expect(ddayLabel("2026-11-19", "2026-11-03")).toBe("D-16");
+    expect(ddayLabel("2026-11-03", "2026-11-03")).toBe("D-Day");
+    expect(ddayLabel("2026-11-02", "2026-11-03")).toBe("D+2");
+    expect(ddayLabel("2026-09-28", "2026-11-03")).toBe("D+37");
   });
 });

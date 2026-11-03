@@ -28,7 +28,8 @@ export function fmtButtonLabel(hhmm) {
   return AMPM_VALUES[p.ampmIdx] + " " + pad2(HOUR_VALUES[p.hourIdx]) + ":" + pad2(MIN_VALUES[p.minIdx]);
 }
 
-function buildWheelCol(el, labels) {
+// 휠 열(column)을 만든다. 디데이 날짜 선택(dday-sheet.js)도 같은 휠을 쓴다.
+export function buildWheelCol(el, labels) {
   el.innerHTML = "";
   const pad = () => {
     const d = document.createElement("div");
@@ -45,11 +46,16 @@ function buildWheelCol(el, labels) {
   el.appendChild(pad());
 }
 
-// 스크롤하는 동안 가운데 띠에 가장 가까운 항목을 강조하고, 멈추면 정확히 그 위치로 맞춘다
-function makeWheel(el, count) {
+// 스크롤하는 동안 가운데 띠에 가장 가까운 항목을 강조하고, 멈추면 정확히 그 위치로 맞춘다.
+// onSettle(idx): 멈춘 뒤 호출. setLimit(n): 앞의 n개만 고를 수 있게 한다 (예: 2월은 28일까지).
+export function makeWheel(el, count, { onSettle } = {}) {
   const items = el.querySelectorAll(".tp-item");
   let settleTimer = null;
-  const nearestIndex = () => Math.max(0, Math.min(count - 1, Math.round(el.scrollTop / TP_ROW_H)));
+  let limit = count;
+  let wheelTarget = null; // 휠로 이동 중인 목표 칸 (부드럽게 움직이는 동안 연속 입력을 이어 붙인다)
+  let wheelAcc = 0;
+  let lastWheelStep = 0;
+  const nearestIndex = () => Math.max(0, Math.min(limit - 1, Math.round(el.scrollTop / TP_ROW_H)));
   const highlight = () => {
     const idx = nearestIndex();
     items.forEach((it, i) => it.classList.toggle("active", i === idx));
@@ -63,20 +69,47 @@ function makeWheel(el, count) {
       settleTimer = setTimeout(() => {
         const target = nearestIndex() * TP_ROW_H;
         if (Math.abs(el.scrollTop - target) > 0.5) el.scrollTo({ top: target, behavior: "smooth" });
-        highlight();
+        const idx = highlight();
+        wheelTarget = null;
+        if (onSettle) onSettle(idx);
       }, 100);
     },
     { passive: true }
   );
+  // 마우스 휠: 브라우저 기본은 한 칸에 ~100px(2–3항목)이라, 한 칸 = 한 항목으로 바꾼다.
+  // 트랙패드처럼 잘게 오는 입력은 모아서 일정량마다, 너무 빠르면 잠깐 쉬며 한 항목씩 넘긴다.
+  el.addEventListener(
+    "wheel",
+    (e) => {
+      if (e.ctrlKey) return; // 핀치 확대는 그대로
+      e.preventDefault();
+      wheelAcc += e.deltaMode === 1 ? e.deltaY * TP_ROW_H : e.deltaY;
+      const now = performance.now();
+      if (Math.abs(wheelAcc) < 30 || now - lastWheelStep < 70) return;
+      const dir = Math.sign(wheelAcc);
+      wheelAcc = 0;
+      lastWheelStep = now;
+      const base = wheelTarget === null ? nearestIndex() : wheelTarget;
+      wheelTarget = Math.max(0, Math.min(limit - 1, base + dir));
+      el.scrollTo({ top: wheelTarget * TP_ROW_H, behavior: "smooth" });
+    },
+    { passive: false }
+  );
   el.addEventListener("click", (e) => {
     const it = e.target.closest(".tp-item");
-    if (!it) return;
+    if (!it || it.classList.contains("disabled")) return;
     el.scrollTo({ top: Array.prototype.indexOf.call(items, it) * TP_ROW_H, behavior: "smooth" });
   });
   return {
     getIndex: nearestIndex,
     setIndex(idx) {
-      el.scrollTop = idx * TP_ROW_H;
+      el.scrollTop = Math.min(idx, limit - 1) * TP_ROW_H;
+      highlight();
+    },
+    setLimit(n) {
+      limit = Math.max(1, Math.min(count, n));
+      items.forEach((it, i) => it.classList.toggle("disabled", i >= limit));
+      if (Math.round(el.scrollTop / TP_ROW_H) >= limit) el.scrollTo({ top: (limit - 1) * TP_ROW_H, behavior: "smooth" });
       highlight();
     },
   };

@@ -59,6 +59,15 @@ function updateEmptyNote() {
 function updateDateHeader() {
   $("dateLabel").textContent = fmtDateLabel(state.viewDate);
   $("todayChip").hidden = state.viewDateStr === todayStr();
+  // 보고 있는 날의 디데이 이름·메모를 날짜 옆에 띄운다 (같은 날 여러 개면 함께)
+  showDatedChip($("ddayChip"), state.ddays);
+  showDatedChip($("memoChip"), state.memos);
+}
+function showDatedChip(chip, items) {
+  const names = items.filter((d) => d.date === state.viewDateStr).map((d) => d.title);
+  chip.textContent = names.join(" · ");
+  chip.title = chip.textContent;
+  chip.hidden = !names.length;
 }
 
 export function positionNow() {
@@ -191,10 +200,29 @@ export function initTimeline() {
   window.addEventListener("load", resettle);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(resettle).catch(() => {});
 
+  // 자정이 지나면: 오늘 화면을 보고 있었으면 새 날짜로 넘기고, 다른 날짜를 보던 중이면 그대로 둔다.
+  // (알림 등 '오늘' 기준으로 도는 기능은 "daychange" 를 듣고 다시 맞춘다)
+  let lastToday = todayStr();
+  function checkDayChange() {
+    const t = todayStr();
+    if (t === lastToday) return;
+    const wasViewingToday = state.viewDateStr === lastToday;
+    lastToday = t;
+    bus.emit("daychange");
+    if (wasViewingToday) setViewDate(new Date());
+  }
   setInterval(() => {
+    checkDayChange();
     positionNow();
-    updateDateHeader(); // 자정이 지나면 '오늘' 칩이 맞게 갱신되도록
+    updateDateHeader(); // 다른 날짜를 보던 중이면 '오늘' 칩이 맞게 갱신되도록
   }, 30000);
+  // 백그라운드에서는 타이머가 늦게 돌 수 있어, 화면으로 돌아오면 바로 확인한다
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState !== "visible") return;
+    checkDayChange();
+    positionNow();
+    updateDateHeader();
+  });
 
   bus.on("items", renderBlocks);
   bus.on("categories", renderBlocks);
@@ -204,4 +232,6 @@ export function initTimeline() {
     positionNow();
     renderBlocks();
   });
+  bus.on("ddays", updateDateHeader);
+  bus.on("memos", updateDateHeader);
 }

@@ -106,11 +106,14 @@ export function initSettings({ onSignOut, onReplayOnboarding }) {
             <div class="set-row-label">일정 시작 알림</div>
             <button type="button" class="set-switch" role="switch" aria-checked="${settings.notifyEnabled}" data-action="notify-toggle"><span></span></button>
           </div>
-          <div class="set-row ${settings.notifyEnabled ? "" : "disabled"}">
+          <div class="set-row set-row-stack ${settings.notifyEnabled ? "" : "disabled"}">
             <div class="set-row-label">알림 시점</div>
-            <select class="set-select" id="setNotifyMinutes" ${settings.notifyEnabled ? "" : "disabled"} aria-label="알림 시점">
-              ${NOTIFY_MINUTES_OPTIONS.map((m) => `<option value="${m}" ${m === settings.notifyMinutesBefore ? "selected" : ""}>${minutesLabel(m)}</option>`).join("")}
-            </select>
+            <div class="stat-seg set-seg-wide" id="setNotifyMinutes" role="radiogroup" aria-label="알림 시점">
+              ${NOTIFY_MINUTES_OPTIONS.map((m) => {
+                const on = m === settings.notifyMinutesBefore;
+                return `<button type="button" role="radio" aria-checked="${on}" data-min="${m}" class="${on ? "active" : ""}" ${settings.notifyEnabled ? "" : "disabled"}>${minutesLabel(m)}</button>`;
+              }).join("")}
+            </div>
           </div>
         </div>
         <p class="set-foot">${settings.notifyEnabled && !systemNotificationsGranted() ? IN_APP_NOTICE : "앱이 열려 있는 동안 알려 드려요. 앱을 닫은 뒤에도 받으려면 네이티브 앱 버전이 필요해요."}</p>
@@ -170,6 +173,12 @@ export function initSettings({ onSignOut, onReplayOnboarding }) {
       run(() => updateSettings({ weekStart: +weekBtn.dataset.week }));
       return;
     }
+    const minBtn = e.target.closest("#setNotifyMinutes button");
+    if (minBtn) {
+      const m = +minBtn.dataset.min;
+      if (m !== state.settings.notifyMinutesBefore) run(() => updateSettings({ notifyMinutesBefore: m }));
+      return;
+    }
     const themeBtn = e.target.closest("[data-theme-id]");
     if (themeBtn) {
       const id = themeBtn.dataset.themeId;
@@ -225,8 +234,6 @@ export function initSettings({ onSignOut, onReplayOnboarding }) {
         await updateProfile({ displayName: v });
         render();
       });
-    } else if (e.target.id === "setNotifyMinutes") {
-      run(() => updateSettings({ notifyMinutesBefore: +e.target.value }));
     }
   });
 

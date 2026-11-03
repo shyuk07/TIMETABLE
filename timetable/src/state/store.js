@@ -1,5 +1,5 @@
 // 앱 전체가 공유하는 상태. 화면 모듈은 여기 값을 읽고, 변화는 bus 이벤트로 받는다.
-//   bus 이벤트: "categories" | "items" | "settings" | "viewdate" | "goals"
+//   bus 이벤트: "categories" | "items" | "settings" | "viewdate" | "goals" | "ddays" | "memos" | "daychange"(자정이 지남)
 
 import { createEmitter } from "../lib/emitter.js";
 import { startOfDay, toDateStr } from "../lib/dates.js";
@@ -17,6 +17,8 @@ export const state = {
   categories: [], // [{id,name,bg,ink,sortOrder,defaultKey}] sortOrder 순
   goals: [], // [{categoryId, period, targetMinutes}]
   items: [], // 지금 보고 있는 날짜의 일정
+  ddays: [], // [{id,title,date}] 날짜 순
+  memos: [], // [{id,title,date}] 날짜 순 (title = 메모 내용)
   viewDate: today,
   viewDateStr: toDateStr(today),
 };

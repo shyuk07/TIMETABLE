@@ -55,6 +55,14 @@ begin
   -- 이름/색 변경은 허용
   update public.categories set name = '공부방', bg = '#112233' where id = study;
 
+  -- 디데이: user_id 자동, 빈 이름 거부
+  insert into public.d_days (title, date) values ('수능', '2026-11-19');
+  assert (select count(*) from public.d_days) = 1, '디데이 저장';
+  insert into public.memos (title, date) values ('준비물 챙기기', '2026-11-18');
+  assert (select count(*) from public.memos) = 1, '메모 저장';
+  begin insert into public.d_days (title, date) values ('  ', '2026-12-01'); assert false, '빈 디데이 이름';
+  exception when check_violation then null; end;
+
   -- 커스텀 카테고리 삭제 → 일정은 '기타'로 이동, 목표는 함께 삭제
   delete from public.categories where id = custom;
   assert (select category_id from public.schedules where id = sched) = other_, '일정이 기타로 이동';
@@ -67,6 +75,8 @@ do $$
 declare a_cat uuid; n int;
 begin
   assert (select count(*) from public.schedules) = 0, 'B에게 A의 일정이 보이면 안 됨';
+  assert (select count(*) from public.d_days) = 0, 'B에게 A의 디데이가 보이면 안 됨';
+  assert (select count(*) from public.memos) = 0, 'B에게 A의 메모가 보이면 안 됨';
   assert (select count(*) from public.categories) = 6, 'B는 자기 카테고리만';
   select id into a_cat from public.categories where default_key='study';   -- B의 것
   -- A의 카테고리 id 를 알아도 B 일정에 붙일 수 없다 (복합 FK + RLS)
@@ -95,5 +105,7 @@ delete from auth.users where id = 'aaaaaaaa-0000-0000-0000-000000000001';
 do $$ begin
   assert (select count(*) from public.categories where user_id='aaaaaaaa-0000-0000-0000-000000000001') = 0, '연쇄 삭제';
   assert (select count(*) from public.schedules) = 0;
+  assert (select count(*) from public.d_days) = 0, '디데이 연쇄 삭제';
+  assert (select count(*) from public.memos) = 0, '메모 연쇄 삭제';
 end $$;
 \echo '== RLS scenario: ALL PASSED =='

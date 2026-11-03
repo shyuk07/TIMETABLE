@@ -10,4 +10,6 @@ psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -q \
   -f supabase/migrations/0001_init.sql \
   -f supabase/migrations/0002_theme.sql \
   -f supabase/migrations/0003_default_black.sql \
+  -f supabase/migrations/0004_d_days.sql \
+  -f supabase/migrations/0005_memos.sql \
   -f tests/rls_scenario.sql

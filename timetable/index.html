@@ -83,7 +83,9 @@
   <div class="topbar">
     <div class="brand">
       <span class="brand-date" id="dateLabel"></span>
-      <button class="today-chip" id="todayChip" hidden>오늘</button>
+      <button class="today-chip" id="todayChip" hidden aria-label="오늘로 돌아가기">돌아가기</button>
+      <span class="dday-chip" id="ddayChip" hidden></span>
+      <span class="dday-chip" id="memoChip" hidden></span>
     </div>
     <button class="menu-btn" id="menuBtn" type="button" aria-label="설정 열기">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
@@ -222,6 +224,7 @@
 
 <div class="cal-backdrop" id="calBackdrop" hidden></div>
 <div class="cal-sheet" id="calSheet" hidden>
+  <div class="sheet-handle cal-handle"></div>
   <div class="cal-header">
     <div class="cal-title" id="calTitle"></div>
     <button class="cal-close" id="calCloseBtn" aria-label="캘린더 닫기">
@@ -239,9 +242,54 @@
       </button>
     </div>
   </div>
-  <div class="cal-holiday-list" id="calHolidayList"></div>
+  <div class="cal-notes">
+    <div class="cal-holiday-list" id="calHolidayList"></div>
+    <div class="cal-dday-month" id="calDdayMonth" hidden></div>
+  </div>
   <div class="cal-weekdays" id="calWeekdays"></div>
   <div class="cal-grid" id="calGrid"></div>
+  <section class="cal-dday">
+    <div class="cal-dday-head">
+      <span class="cal-dday-title">메모</span>
+      <button type="button" class="cal-dday-add" id="memoAddBtn">+ 메모</button>
+    </div>
+    <div class="cal-dday-list" id="memoList"></div>
+  </section>
+  <section class="cal-dday">
+    <div class="cal-dday-head">
+      <span class="cal-dday-title">디데이</span>
+      <button type="button" class="cal-dday-add" id="ddayAddBtn">+ 디데이</button>
+    </div>
+    <div class="cal-dday-list" id="ddayList"></div>
+  </section>
+</div>
+
+<div class="dday-backdrop" id="ddayBackdrop" hidden></div>
+<div class="dday-sheet" id="ddaySheet" hidden>
+  <div class="sheet-handle"></div>
+  <h2 id="ddaySheetTitle">새 디데이</h2>
+  <div class="field">
+    <label for="ddayTitleInput" id="ddayTitleLabel">이벤트 이름</label>
+    <input type="text" id="ddayTitleInput" placeholder="예: 생일" maxlength="30">
+  </div>
+  <div class="field">
+    <div class="dday-date-label">
+      <label>날짜</label>
+      <span class="dday-preview" id="ddayPreview"></span>
+    </div>
+    <div class="tp-wheels">
+      <div class="tp-highlight"></div>
+      <div class="tp-col" id="ddayYear"></div>
+      <div class="tp-col" id="ddayMonth"></div>
+      <div class="tp-col" id="ddayDay"></div>
+    </div>
+  </div>
+  <p class="cat-error" id="ddayError" role="alert" hidden></p>
+  <div class="sheet-actions">
+    <button class="btn btn-cancel" id="ddayCancelBtn">취소</button>
+    <button class="btn btn-save" id="ddaySaveBtn">저장</button>
+  </div>
+  <button class="btn-delete" id="ddayDeleteBtn" hidden>이 디데이 삭제</button>
 </div>
 
 <div class="stats-backdrop" id="statsBackdrop" hidden></div>

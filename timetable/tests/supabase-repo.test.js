@@ -131,3 +131,26 @@ describe("supabase repo — 오류/인증", () => {
     await expect(createSupabaseRepo(c).auth.signInWithEmail("a@b.com")).rejects.toThrow("rate limit");
   });
 });
+
+describe("supabase repo — 디데이", () => {
+  it("목록은 날짜 순으로 d_days 에서 읽는다", async () => {
+    const c = fakeClient({ d_days: () => ({ data: [{ id: "d1", title: "수능", date: "2026-11-19" }], error: null }) });
+    expect(await createSupabaseRepo(c).ddays.list()).toEqual([{ id: "d1", title: "수능", date: "2026-11-19" }]);
+    expect(ops(c.calls[0])).toMatchObject({ order: ["date"] });
+  });
+  it("생성 payload: 이름 앞뒤 공백 제거, user_id 는 DB 기본값", async () => {
+    const c = fakeClient({ d_days: () => ({ data: { id: "d1", title: "수능", date: "2026-11-19" }, error: null }) });
+    await createSupabaseRepo(c).ddays.create({ title: " 수능 ", date: "2026-11-19" });
+    expect(ops(c.calls[0]).insert[0]).toEqual({ title: "수능", date: "2026-11-19" });
+  });
+});
+
+describe("supabase repo — 메모", () => {
+  it("memos 테이블을 디데이와 같은 모양으로 쓴다", async () => {
+    const c = fakeClient({ memos: () => ({ data: { id: "m1", title: "병원", date: "2026-11-05" }, error: null }) });
+    const m = await createSupabaseRepo(c).memos.create({ title: " 병원 ", date: "2026-11-05" });
+    expect(m).toEqual({ id: "m1", title: "병원", date: "2026-11-05" });
+    expect(c.calls[0].table).toBe("memos");
+    expect(ops(c.calls[0]).insert[0]).toEqual({ title: "병원", date: "2026-11-05" });
+  });
+});

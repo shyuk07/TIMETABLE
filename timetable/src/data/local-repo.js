@@ -2,7 +2,7 @@
 // Supabase 저장소(supabase-repo.js)와 완전히 같은 인터페이스이고,
 // DB 트리거가 해 주는 규칙(기본 카테고리 삭제 금지, 삭제 시 '기타'로 이동, 이름 중복 금지)을 JS로 똑같이 지킨다.
 
-import { DEFAULT_CATEGORIES, DEFAULT_SETTINGS, CATEGORY_NAME_MAX } from "./defaults.js";
+import { DEFAULT_CATEGORIES, DEFAULT_SETTINGS, CATEGORY_NAME_MAX, DDAY_TITLE_MAX, MEMO_TEXT_MAX } from "./defaults.js";
 import { toMin } from "../lib/dates.js";
 import { isTheme } from "../lib/themes.js";
 
@@ -19,6 +19,8 @@ function freshState() {
     categories: DEFAULT_CATEGORIES.map((c, i) => ({ id: uuid(), ...c, sortOrder: i })),
     schedules: [],
     goals: [],
+    ddays: [],
+    memos: [],
   };
 }
 
@@ -48,6 +50,8 @@ export function createLocalRepo(storage = resolveStorage()) {
         db.settings = { ...DEFAULT_SETTINGS, ...(db.settings || {}) };
         db.profile = { displayName: "", onboarded: false, ...(db.profile || {}) };
         db.goals = db.goals || [];
+        db.ddays = db.ddays || [];
+        db.memos = db.memos || [];
         return db;
       }
     } catch (e) {
@@ -79,6 +83,43 @@ export function createLocalRepo(storage = resolveStorage()) {
     if (!s.title || !s.title.trim()) throw new Error("제목을 입력해 주세요");
     if (toMin(s.end) <= toMin(s.start)) throw new Error("종료 시간은 시작 시간보다 늦어야 해요");
     if (!load().categories.some((c) => c.id === s.categoryId)) throw new Error("카테고리를 찾을 수 없어요");
+  }
+  // 디데이·메모: {id, title, date} 를 날짜 순으로 다루는 같은 모양의 저장소
+  const byDate = (a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0);
+  function datedItems(key, { max, emptyMsg, notFoundMsg }) {
+    function validate(d) {
+      const t = (d.title || "").trim();
+      if (!t) throw new Error(emptyMsg);
+      if (t.length > max) throw new Error(`${max}자까지 가능해요`);
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(d.date || "")) throw new Error("날짜가 올바르지 않아요");
+      return t;
+    }
+    return {
+      /** 날짜 순 */
+      async list() {
+        return clone(load()[key].slice().sort(byDate));
+      },
+      async create(input) {
+        const title = validate(input);
+        const it = { id: uuid(), title, date: input.date };
+        load()[key].push(it);
+        save();
+        return clone(it);
+      },
+      async update(id, patch) {
+        const it = load()[key].find((x) => x.id === id);
+        if (!it) throw new Error(notFoundMsg);
+        const next = { ...it, ...patch };
+        Object.assign(it, { title: validate(next), date: next.date });
+        save();
+        return clone(it);
+      },
+      async remove(id) {
+        const d = load();
+        d[key] = d[key].filter((x) => x.id !== id);
+        save();
+      },
+    };
   }
 
   const user = { id: "local", email: null, name: "" };
@@ -223,5 +264,8 @@ export function createLocalRepo(storage = resolveStorage()) {
         save();
       },
     },
+
+    ddays: datedItems("ddays", { max: DDAY_TITLE_MAX, emptyMsg: "이벤트 이름을 입력해 주세요", notFoundMsg: "디데이를 찾을 수 없어요" }),
+    memos: datedItems("memos", { max: MEMO_TEXT_MAX, emptyMsg: "메모를 입력해 주세요", notFoundMsg: "메모를 찾을 수 없어요" }),
   };
 }

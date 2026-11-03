@@ -76,3 +76,21 @@ export function fmtDuration(mins) {
   if (h) return `${h}시간`;
   return `${m}분`;
 }
+
+/** 두 날짜("YYYY-MM-DD") 사이의 일수: to − from (서머타임과 무관하게 달력 날짜로 센다) */
+export function daysBetween(fromStr, toStr) {
+  const [y1, m1, d1] = fromStr.split("-").map(Number);
+  const [y2, m2, d2] = toStr.split("-").map(Number);
+  return Math.round((Date.UTC(y2, m2 - 1, d2) - Date.UTC(y1, m1 - 1, d1)) / 86400000);
+}
+
+/**
+ * 디데이 표시: 남았으면 "D-3", 당일 "D-Day", 지났으면 "D+n".
+ * 지난 날은 한국식 기념일 계산처럼 그날을 1일째로 센다 (예: 9/28 → 11/3 은 37일째라 D+37, 다음 날은 D+2부터).
+ */
+export function ddayLabel(dateStr, today = todayStr()) {
+  const n = daysBetween(today, dateStr);
+  if (n > 0) return `D-${n}`;
+  if (n === 0) return "D-Day";
+  return `D+${-n + 1}`;
+}

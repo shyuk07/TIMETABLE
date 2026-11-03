@@ -21,7 +21,7 @@
   flex-direction:column;
   align-items:center;
   gap:3px;
-  color:var(--ink-faint);
+  color:var(--ink-dim);
   font-size:10px;
   letter-spacing:.2px;
   padding:4px 14px;

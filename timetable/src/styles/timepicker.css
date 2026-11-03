@@ -85,3 +85,4 @@
   cursor:pointer;
 }
 .tp-item.active{color:var(--ink);font-weight:700;}
+.tp-item.disabled{opacity:.25;cursor:default;}
