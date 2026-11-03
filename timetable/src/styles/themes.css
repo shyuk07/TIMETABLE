@@ -14,7 +14,7 @@
 
 /* 블랙(기본)은 base.css 의 :root — 뉴트럴 블랙 바탕, 그레이 글자·그레이 강조 */
 
-/* 엠버 — 짙은 갈색 바탕, 크림 글자·앰버 강조 (다크) */
+/* 브라운(id ember) — 짙은 갈색 바탕, 크림 글자·앰버 강조 (다크) */
 :root[data-theme="ember"]{
   --bg:#2e221b;
   --ink:#faf1e3; --ink-rgb:250,241,227;
@@ -36,7 +36,7 @@
   --danger:#c94f41; --danger-rgb:201,79,65; --on-danger:#ffffff; --holiday:#d0503c;
 }
 
-/* 크림 네이비 — Cream #FFF6E9 바탕 + Navy #002B62 글자·강조 (라이트) */
+/* 네이비(id cream) — Cream #FFF6E9 바탕 + Navy #002B62 글자·강조 (라이트) */
 :root[data-theme="cream"]{
   color-scheme:light;
   --bg:#fff6e9;
