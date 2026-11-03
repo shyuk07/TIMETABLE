@@ -1,9 +1,7 @@
 // 타임라인을 길게 누른 채 위/아래로 끌어 시간 범위를 고르고, 손을 떼면 그 범위가 채워진 '새 일정' 시트가 열린다.
 // (예: 3시부터 5시까지 드래그)
 
-import { state } from "../state/store.js";
-import { DAY_START, DAY_END, PX_PER_MIN, fmtHHMM, minsNow, todayStr } from "../lib/dates.js";
-import { showToast } from "../lib/toast.js";
+import { DAY_START, DAY_END, PX_PER_MIN, fmtHHMM } from "../lib/dates.js";
 import { dragLayer, selectionBox, selectionLabel } from "./timeline.js";
 import { $ } from "../lib/dom.js";
 
@@ -24,23 +22,12 @@ export function initDragCreate({ openNewSheet }) {
 
   dragLayer.style.touchAction = "pan-y";
 
-  const isToday = () => state.viewDateStr === todayStr();
-  const isPast = () => state.viewDateStr < todayStr();
-
-  function rawYToMin(clientY) {
+  // 지난 날짜·지난 시간에도 일정을 만들 수 있다 (하루를 돌아보며 기록하는 용도)
+  function yToMin(clientY) {
     const rect = wrap.getBoundingClientRect();
     let min = DAY_START + (clientY - rect.top) / PX_PER_MIN;
     min = Math.max(DAY_START, Math.min(DAY_END, min));
     return Math.round(min / STEP) * STEP;
-  }
-  // 오늘을 볼 때는 '지금'보다 이른 시간으로 끌 수 없다
-  function yToMin(clientY) {
-    let min = rawYToMin(clientY);
-    if (isToday()) {
-      const floor = Math.ceil(minsNow() / STEP) * STEP;
-      if (min < floor) min = floor;
-    }
-    return min;
   }
 
   function paintSelection() {
@@ -91,14 +78,6 @@ export function initDragCreate({ openNewSheet }) {
 
   dragLayer.addEventListener("pointerdown", (e) => {
     if (e.pointerType === "mouse" && e.button !== 0) return;
-    if (isPast()) {
-      showToast("지난 날짜에는 일정을 추가할 수 없어요");
-      return;
-    }
-    if (isToday() && rawYToMin(e.clientY) < minsNow()) {
-      showToast("이미 지난 시간에는 일정을 추가할 수 없어요");
-      return;
-    }
     pressStartX = e.clientX;
     pressStartY = e.clientY;
     activePointerId = e.pointerId;

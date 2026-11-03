@@ -153,11 +153,12 @@
   border:none;
   background:var(--accent);
   color:var(--accent-ink);
-  font-size:26px;
-  line-height:1;
   box-shadow:0 10px 24px var(--shadow);
   display:flex;align-items:center;justify-content:center;
+  padding:0;
   cursor:pointer;
   z-index:20;
 }
+/* 글자 '+' 는 글꼴마다 위아래 위치가 달라 원 중심과 어긋나므로 SVG 로 그린다 */
+.fab svg{width:21px;height:21px;display:block;}
 .fab:active{transform:scale(.96);}

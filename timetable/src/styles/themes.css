@@ -49,16 +49,16 @@
   --danger:#c24d3f; --danger-rgb:194,77,63; --on-danger:#fff6e9; --holiday:#cc4b38;
 }
 
-/* 그린 골드 — #EAEAEA 바탕 + #14332B 글자 + #A18254 강조 (라이트) */
+/* 그린(id green-gold) — 민트 #E0ECDE 바탕 + 틸 #2C6975 강조, 짙은 틸 글자 (라이트) */
 :root[data-theme="green-gold"]{
   color-scheme:light;
-  --bg:#eaeaea;
-  --ink:#14332b; --ink-rgb:20,51,43;
-  --accent:#a18254; --accent-rgb:161,130,84; --accent-hi:#7d6338; --accent-ink:#14332b;
-  --sheet:#eeeeee;
-  --shade:rgba(10,25,21,.34); --pop-rgb:247,247,247; --bar-rgb:243,243,243; --shadow:rgba(20,51,43,.14);
-  --clock-rim:rgba(20,51,43,.25);
-  --surface:rgba(20,51,43,.05); --surface-strong:rgba(20,51,43,.1); --surface-soft:rgba(20,51,43,.03);
+  --bg:#e0ecde;
+  --ink:#1d4a53; --ink-rgb:29,74,83;
+  --accent:#2c6975; --accent-rgb:44,105,117; --accent-hi:#3f8f9c; --accent-ink:#ffffff;
+  --sheet:#eef6ec;
+  --shade:rgba(16,48,54,.32); --pop-rgb:244,250,243; --bar-rgb:236,245,234; --shadow:rgba(44,105,117,.18);
+  --clock-rim:rgba(44,105,117,.3);
+  --surface:rgba(44,105,117,.07); --surface-strong:rgba(44,105,117,.14); --surface-soft:rgba(44,105,117,.04);
   --danger:#b84a3c; --danger-rgb:184,74,60; --on-danger:#f3f3f3; --holiday:#c0482f;
 }
 

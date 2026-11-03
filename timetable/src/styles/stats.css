@@ -99,7 +99,7 @@
   display:flex;
   align-items:flex-end;
   gap:5px;
-  height:78px;
+  height:84px; /* 요일 라벨이 커진 만큼(원래 78px + 6px) 막대 영역 높이를 유지 */
 }
 .stat-bar-col{
   flex:1;
@@ -113,13 +113,13 @@
 }
 .stat-bar{
   width:100%;
-  max-width:22px;
+  max-width:28px;
   border-radius:5px 5px 3px 3px;
   flex-shrink:0;
 }
 .stat-tick{
   width:100%;
-  max-width:22px;
+  max-width:28px;
   height:1.5px;
   border-radius:1px;
   background:rgba(var(--ink-rgb),.14);
@@ -129,9 +129,9 @@
   background:var(--accent);
 }
 .stat-bar-label{
-  height:12px;
-  line-height:12px;
-  font-size:9.5px;
+  height:18px;
+  line-height:18px;
+  font-size:15.5px;
   color:var(--ink-faint);
   font-variant-numeric:tabular-nums;
   white-space:nowrap;

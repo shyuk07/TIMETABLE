@@ -53,13 +53,7 @@ export function initScheduleSheet() {
     fTitle.focus({ preventScroll: true });
   }
 
-  $("addBtn").addEventListener("click", () => {
-    if (state.viewDateStr < todayStr()) {
-      showToast("지난 날짜에는 일정을 추가할 수 없어요");
-      return;
-    }
-    open(null);
-  });
+  $("addBtn").addEventListener("click", () => open(null));
   $("cancelBtn").addEventListener("click", ctl.close);
 
   $("saveBtn").addEventListener("click", async () => {

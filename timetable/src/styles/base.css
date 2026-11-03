@@ -46,6 +46,9 @@ body{
   font-family:var(--font-body);
   color:var(--ink);
   background:var(--bg);
+  /* 한국어 줄바꿈을 글자가 아닌 단어(띄어쓰기) 단위로. 너무 긴 단어만 예외로 끊는다 */
+  word-break:keep-all;
+  overflow-wrap:break-word;
   -webkit-font-smoothing:antialiased;
   -webkit-user-select:none;
   user-select:none;
