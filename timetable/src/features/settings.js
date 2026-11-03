@@ -116,7 +116,7 @@ export function initSettings({ onSignOut, onReplayOnboarding }) {
             </div>
           </div>
         </div>
-        <p class="set-foot">${settings.notifyEnabled && !systemNotificationsGranted() ? IN_APP_NOTICE : "앱이 열려 있는 동안 알려 드려요. 앱을 닫은 뒤에도 받으려면 네이티브 앱 버전이 필요해요."}</p>
+        <p class="set-foot">${settings.notifyEnabled && !systemNotificationsGranted() ? IN_APP_NOTICE : "디데이·메모가 있는 날은 그날이 되자마자(00:00) 알려 드려요. 앱이 열려 있는 동안만 알릴 수 있어요."}</p>
       </section>
 
       <section class="set-group">

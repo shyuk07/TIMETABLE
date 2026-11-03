@@ -55,18 +55,58 @@ function showInAppAlert(title, body) {
   alertTimer = setTimeout(() => (alertEl.hidden = true), 20000);
 }
 
-function fire(item, before) {
-  const cat = categoryById(item.categoryId);
-  const body = before > 0 ? `${before}분 뒤 시작해요 · ${item.start} ${cat.name}` : `지금 시작해요 · ${item.start} ${cat.name}`;
+function notify(title, body, tag) {
   if (systemNotificationsGranted()) {
     try {
-      new Notification(item.title, { body, tag: item.id });
+      new Notification(title, { body, tag });
       return;
     } catch (e) {
       /* 일부 모바일 브라우저는 생성이 막혀 있다 → 아래 앱 안 알림으로 */
     }
   }
-  showInAppAlert(item.title, body);
+  showInAppAlert(title, body);
+}
+
+function fire(item, before) {
+  const cat = categoryById(item.categoryId);
+  const body = before > 0 ? `${before}분 뒤 시작해요 · ${item.start} ${cat.name}` : `지금 시작해요 · ${item.start} ${cat.name}`;
+  notify(item.title, body, item.id);
+}
+
+// ---- 디데이·메모 당일 알림: 그날이 되자마자(00:00, 자정이 지나 "daychange" 로 다시 예약될 때).
+//      그때 앱이 닫혀 있었으면 그날 처음 열 때 한 번 ----
+const DAY_NOTICE_KEY = "timetable:day-notices";
+// 새로고침해도 같은 날 같은 알림이 또 뜨지 않도록, 보낸 기록을 오늘 것만 저장해 둔다
+function loadDayNotices(day) {
+  try {
+    const list = JSON.parse(localStorage.getItem(DAY_NOTICE_KEY) || "[]");
+    return new Set(list.filter((k) => k.startsWith(day + "|")));
+  } catch (e) {
+    return new Set();
+  }
+}
+function markDayNotice(key, day) {
+  const set = loadDayNotices(day);
+  set.add(key);
+  try {
+    localStorage.setItem(DAY_NOTICE_KEY, JSON.stringify([...set]));
+  } catch (e) {
+    /* 저장소 사용 불가 — 이번 방문 동안은 fired 로 막힌다 */
+  }
+}
+
+function sendDayNotices(day) {
+  const done = loadDayNotices(day);
+  const notices = [
+    ...state.ddays.filter((d) => d.date === day).map((d) => ({ key: `${day}|dday|${d.id}`, title: d.title, body: "오늘이 디데이예요 · D-Day" })),
+    ...state.memos.filter((m) => m.date === day).map((m) => ({ key: `${day}|memo|${m.id}`, title: "오늘의 메모", body: m.title })),
+  ];
+  notices.forEach((n) => {
+    if (done.has(n.key) || fired.has(n.key)) return;
+    fired.add(n.key);
+    markDayNotice(n.key, day);
+    notify(n.title, n.body, n.key);
+  });
 }
 
 export async function rescheduleNotifications() {
@@ -75,16 +115,18 @@ export async function rescheduleNotifications() {
   const { notifyEnabled, notifyMinutesBefore } = state.settings;
   if (!notifyEnabled) return;
 
-  let items = [];
-  try {
-    items = await state.repo.schedules.listByDate(todayStr());
-  } catch (e) {
-    return;
-  }
   const midnight = new Date();
   midnight.setHours(0, 0, 0, 0);
   const now = Date.now();
   const day = todayStr();
+  sendDayNotices(day);
+
+  let items = [];
+  try {
+    items = await state.repo.schedules.listByDate(day);
+  } catch (e) {
+    return;
+  }
   items.forEach((it) => {
     const key = `${day}|${it.id}|${it.start}|${notifyMinutesBefore}`;
     if (fired.has(key)) return;
@@ -112,6 +154,8 @@ export function initNotifications() {
   };
   bus.on("items", later);
   bus.on("settings", later);
+  bus.on("ddays", later);
+  bus.on("memos", later);
   bus.on("daychange", later); // 자정이 지나면 새 날의 일정으로 다시 예약
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") later();
