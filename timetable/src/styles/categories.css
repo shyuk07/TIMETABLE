@@ -41,9 +41,8 @@
   -webkit-user-select:none;
   touch-action:manipulation;
 }
-.chip[data-active="true"]{background:var(--chip-bg);color:var(--chip-ink);border-color:var(--chip-bg);}
-/* 블랙(기본 테마): 선택된 카테고리는 색 대신 그레이 강조색 하나로 통일 */
-:root:not([data-theme]) .chip[data-active="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);}
+/* 선택된 카테고리는 카테고리별 색 대신 테마의 강조색 하나로 통일 */
+.chip[data-active="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);}
 .chip.delete-armed{
   animation:chip-armed-pulse .5s ease-in-out infinite alternate;
 }

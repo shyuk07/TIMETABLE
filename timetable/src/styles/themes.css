@@ -71,7 +71,7 @@
   --accent:#e8d6fb; --accent-rgb:232,214,251; --accent-hi:#f3eafd; --accent-ink:#4b3354;
   --sheet:#fdf2f8;
   --shade:rgba(75,40,70,.28); --pop-rgb:253,242,248; --bar-rgb:238,213,232; --shadow:rgba(150,90,130,.18);
-  --clock-rim:rgba(120,80,150,.3); --accent-text:#8a5cc7;
+  --clock-rim:rgba(120,80,150,.3); --accent-text:#8a5cc7; --now-line:#dcadd0;
   --ink-dim:rgba(var(--ink-rgb),.78); --ink-faint:rgba(var(--ink-rgb),.55);
   --surface:rgba(242,198,226,.5); --surface-strong:rgba(242,198,226,.85); --surface-soft:rgba(242,198,226,.28);
   --danger:#c2506a; --danger-rgb:194,80,106; --on-danger:#ffffff; --holiday:#d0506a;

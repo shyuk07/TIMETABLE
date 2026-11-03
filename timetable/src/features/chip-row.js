@@ -119,8 +119,6 @@ export function renderChipRow() {
     chip.className = "chip";
     chip.dataset.cat = cat.id;
     chip.textContent = cat.name;
-    chip.style.setProperty("--chip-bg", cat.bg);
-    chip.style.setProperty("--chip-ink", cat.ink);
     chip.dataset.active = cat.id === selectedId ? "true" : "false";
     chipRow.appendChild(chip);
     attachChipLongPress(chip, cat);

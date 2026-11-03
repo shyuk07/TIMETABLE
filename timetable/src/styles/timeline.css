@@ -108,20 +108,35 @@
   box-shadow:0 6px 16px var(--shadow);
 }
 
+/* 현재 시각선: .now-line 의 top 이 선의 중심. 점선은 ::after, 원은 ::before */
 .now-line{
   position:absolute;
   left:0;right:0;
   height:0;
-  border-top:2px dashed rgba(var(--accent-rgb),.9);
   pointer-events:none;
+}
+/* 끝이 둥근 굵은 점선 (두께 3px, 대시 7px, 간격 3px).
+   border dashed 는 모양을 못 바꾸므로 둥근 막대 SVG 를 mask 로 반복하고, 색은 배경색으로 칠한다 */
+.now-line::after{
+  content:"";
+  position:absolute;
+  left:0;right:0;
+  top:-1.5px;height:3px;
+  /* --now-line: 강조색이 연해 점선이 안 보이는 테마만 따로 지정 (없으면 강조색) */
+  background:var(--now-line, rgba(var(--accent-rgb),.9));
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='3'%3E%3Crect width='7' height='3' rx='1.5'/%3E%3C/svg%3E") left center / 10px 3px repeat-x;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='3'%3E%3Crect width='7' height='3' rx='1.5'/%3E%3C/svg%3E") left center / 10px 3px repeat-x;
 }
 .now-line::before{
   content:"";
   position:absolute;
-  left:53px;top:-4px;
+  z-index:1;
+  /* 원 중심 = 세로줄 중심(.rail left 54px + 폭 2.5px 의 절반), 점선 중심(.now-line 의 top) */
+  left:calc(54px + 2.5px / 2);top:0;
+  transform:translate(-50%,-50%);
   width:9px;height:9px;
   border-radius:50%;
-  background:var(--accent);
+  background:var(--now-line, var(--accent));
   box-shadow:0 0 0 4px rgba(var(--accent-rgb),.22);
 }
 

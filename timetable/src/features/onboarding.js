@@ -42,7 +42,7 @@ export function initOnboarding() {
         </div>`;
     }
     if (id === "categories") {
-      const chips = state.categories.map((c) => `<span class="chip" data-active="true" style="--chip-bg:${c.bg};--chip-ink:${c.ink}">${escapeHtml(c.name)}</span>`).join("");
+      const chips = state.categories.map((c) => `<span class="chip" data-active="true">${escapeHtml(c.name)}</span>`).join("");
       return `
         <h1 class="ob-title">카테고리</h1>
         <p class="ob-desc">일정은 카테고리로 나뉘어 통계에 쌓여요.<br>기본 ${state.categories.filter((c) => c.defaultKey).length}개가 준비돼 있고, 내 것을 더할 수 있어요.</p>
