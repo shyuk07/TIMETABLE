@@ -1,6 +1,6 @@
 // 앱 진입점 — 흐름: (서비스 모드) 로그인 → (첫 사용) 온보딩 → 메인(타임라인/캘린더/통계/설정)
 
-import "./styles/index.css";
+import "./styles/index.js";
 import { createRepo } from "./data/index.js";
 import { state, bus } from "./state/store.js";
 import { applyTheme } from "./lib/themes.js";
