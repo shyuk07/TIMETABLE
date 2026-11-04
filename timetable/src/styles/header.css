@@ -27,9 +27,11 @@
 }
 .brand{
   display:flex;
-  align-items:baseline;
+  align-items:center;
   gap:8px;
   min-width:0; /* 디데이 이름이 길면 줄여서(…) 메뉴 버튼을 밀어내지 않게 */
+  /* '돌아가기'·디데이 칩이 있든 없든 줄 높이를 같게 → 날짜 글자가 위아래로 움직이지 않는다 */
+  min-height:24px;
 }
 .brand-date{white-space:nowrap;}
 .brand-mark{
