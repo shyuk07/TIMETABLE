@@ -5,8 +5,8 @@
 export const THEMES = [
   { id: "black", name: "블랙", color: "#101010" },
   { id: "white", name: "화이트", color: "#e2e2e2" },
-  { id: "ember", name: "브라운", color: "#2e221b" },
-  { id: "cream", name: "네이비", color: "#fff6e9" },
+  { id: "ember", name: "브라운", color: "#3b1219" },
+  { id: "cream", name: "네이비", color: "#fffacd" },
   { id: "green-gold", name: "그린", color: "#e0ecde" },
   { id: "neo-pastel", name: "파스텔", color: "#f0e1e8" },
   // 새 테마는 여기에 { id, name, color } 를 추가하고, src/styles/themes.css 에 같은 id 의 블록을 만든다.

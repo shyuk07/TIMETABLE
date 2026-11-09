@@ -126,7 +126,7 @@
   flex-shrink:0;
 }
 .stat-bar-col.today .stat-tick{
-  background:var(--accent);
+  background:var(--ink); /* 오늘(이번 달) 표시도 시간 숫자와 같은 글자색 */
 }
 .stat-bar-label{
   height:18px;
@@ -137,7 +137,7 @@
   white-space:nowrap;
 }
 .stat-bar-col.today .stat-bar-label{
-  color:var(--accent-text, var(--accent));
+  color:var(--ink);
   font-weight:700;
 }
 .stat-chart.compact{

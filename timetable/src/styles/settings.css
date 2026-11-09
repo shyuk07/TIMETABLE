@@ -15,7 +15,8 @@
   box-shadow:0 -16px 40px var(--shadow);
 }
 .set-body{display:flex;flex-direction:column;gap:22px;}
-.set-h{margin:0 0 8px;font-size:13.5px;font-weight:600;color:var(--ink-faint);}
+/* 계정·테마·카테고리… 소제목: 크고 진하게 강조 */
+.set-h{margin:0 0 10px;font-size:16px;font-weight:800;color:var(--ink);}
 .set-card{background:var(--surface);border:1px solid rgba(var(--ink-rgb),.14);border-radius:16px;overflow:hidden;}
 /* 카드 안 항목 사이 구분선. :not() 으로 우선순위를 높여 버튼의 border:none 에 지워지지 않게 한다 */
 .set-card > :not(:first-child){border-top:1px solid rgba(var(--ink-rgb),.1);}
@@ -39,6 +40,7 @@
 .set-name::placeholder{color:var(--ink-faint);font-weight:400;}
 
 .set-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 14px;}
+.set-row{transition:opacity .28s ease;}
 .set-row.disabled{opacity:.5;}
 .set-row-label{font-size:14px;font-weight:600;}
 .set-row-btn{
@@ -59,11 +61,15 @@
 .set-switch{
   position:relative;flex-shrink:0;
   width:46px;height:28px;border-radius:14px;border:none;padding:0;cursor:pointer;
-  background:rgba(var(--ink-rgb),.2);transition:background .2s ease;
+  background:rgba(var(--ink-rgb),.2);transition:background .28s ease;
 }
+/* 손잡이는 누르자마자 빠르게 출발해 부드럽게 멈추고, 색도 함께 바뀐다
+   (settings.js 가 저장 전에 먼저 상태를 바꿔 애니메이션이 보이게 한다) */
 .set-switch span{
   position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;
-  background:var(--ink);transition:transform .2s ease;
+  background:var(--ink);
+  transition:transform .28s cubic-bezier(.22,1,.36,1), background .28s ease;
+  box-shadow:0 1px 3px rgba(0,0,0,.25);
 }
 .set-switch[aria-checked="true"]{background:var(--accent);}
 .set-switch[aria-checked="true"] span{transform:translateX(18px);background:var(--accent-ink);}
@@ -106,3 +112,17 @@
 .theme-opt:focus-visible .theme-swatch{box-shadow:0 0 0 2px var(--sheet), 0 0 0 4px var(--ink);}
 .ob-theme .theme-grid{padding:12px;}
 .ob-card + .ob-card{margin-top:12px;}
+
+/* 설정의 버튼 묶음: 선택 표시가 고른 버튼으로 미끄러져 간다 (settings.js 의 placeThumb) */
+.seg-anim{position:relative;}
+.seg-anim button{position:relative;z-index:1;transition:color .28s ease;}
+.seg-thumb{
+  position:absolute;
+  top:2px;bottom:2px;left:0;
+  border-radius:999px;
+  background:var(--surface-strong);
+  transition:transform .28s cubic-bezier(.22,1,.36,1), width .28s cubic-bezier(.22,1,.36,1);
+  pointer-events:none;
+}
+.set-seg-wide .seg-thumb{top:3px;bottom:3px;}
+.seg-anim.has-thumb button.active{background:none;}

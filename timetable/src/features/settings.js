@@ -90,7 +90,7 @@ export function initSettings({ onSignOut, onReplayOnboarding }) {
         <div class="set-card">
           <div class="set-row">
             <div class="set-row-label">한 주의 시작</div>
-            <div class="stat-seg" id="setWeekStart">
+            <div class="stat-seg seg-anim" id="setWeekStart">
               <button type="button" data-week="0" class="${settings.weekStart === 0 ? "active" : ""}">일요일</button>
               <button type="button" data-week="1" class="${settings.weekStart === 1 ? "active" : ""}">월요일</button>
             </div>
@@ -108,7 +108,7 @@ export function initSettings({ onSignOut, onReplayOnboarding }) {
           </div>
           <div class="set-row set-row-stack ${settings.notifyEnabled ? "" : "disabled"}">
             <div class="set-row-label">알림 시점</div>
-            <div class="stat-seg set-seg-wide" id="setNotifyMinutes" role="radiogroup" aria-label="알림 시점">
+            <div class="stat-seg set-seg-wide seg-anim" id="setNotifyMinutes" role="radiogroup" aria-label="알림 시점">
               ${NOTIFY_MINUTES_OPTIONS.map((m) => {
                 const on = m === settings.notifyMinutesBefore;
                 return `<button type="button" role="radio" aria-checked="${on}" data-min="${m}" class="${on ? "active" : ""}" ${settings.notifyEnabled ? "" : "disabled"}>${minutesLabel(m)}</button>`;
@@ -167,16 +167,45 @@ export function initSettings({ onSignOut, onReplayOnboarding }) {
     }
   }
 
+  // ---- 버튼 묶음(.seg-anim): 선택 표시(thumb)가 고른 버튼으로 미끄러져 간다 ----
+  // 저장하면 화면이 다시 그려지므로, 먼저 표시를 움직이고 애니메이션(.28s)이 끝난 뒤 저장한다
+  const SEG_ANIM_MS = 280;
+  function placeThumb(seg, animate) {
+    const active = seg.querySelector("button.active");
+    let thumb = seg.querySelector(".seg-thumb");
+    if (!thumb) {
+      thumb = document.createElement("span");
+      thumb.className = "seg-thumb";
+      seg.prepend(thumb);
+    }
+    if (!active || !active.offsetWidth) return; // 시트가 아직 숨겨져 있으면 잴 수 없다
+    thumb.style.transition = animate ? "" : "none";
+    thumb.style.width = active.offsetWidth + "px";
+    thumb.style.transform = `translateX(${active.offsetLeft}px)`;
+    seg.classList.add("has-thumb"); // 이때부터 버튼 자체 배경 대신 thumb 가 선택 표시를 맡는다
+  }
+  const placeAllThumbs = () => body.querySelectorAll(".seg-anim").forEach((seg) => placeThumb(seg, false));
+  function slideTo(btn, save) {
+    const seg = btn.closest(".seg-anim");
+    if (btn.classList.contains("active") || seg.dataset.busy) return;
+    seg.dataset.busy = "1";
+    seg.querySelectorAll("button").forEach((b) => {
+      b.classList.toggle("active", b === btn);
+      if (b.hasAttribute("role")) b.setAttribute("aria-checked", String(b === btn));
+    });
+    placeThumb(seg, true);
+    setTimeout(() => run(save).finally(() => delete seg.dataset.busy), SEG_ANIM_MS);
+  }
+
   body.addEventListener("click", (e) => {
     const weekBtn = e.target.closest("#setWeekStart button");
     if (weekBtn) {
-      run(() => updateSettings({ weekStart: +weekBtn.dataset.week }));
+      slideTo(weekBtn, () => updateSettings({ weekStart: +weekBtn.dataset.week }));
       return;
     }
     const minBtn = e.target.closest("#setNotifyMinutes button");
     if (minBtn) {
-      const m = +minBtn.dataset.min;
-      if (m !== state.settings.notifyMinutesBefore) run(() => updateSettings({ notifyMinutesBefore: m }));
+      if (!minBtn.disabled) slideTo(minBtn, () => updateSettings({ notifyMinutesBefore: +minBtn.dataset.min }));
       return;
     }
     const themeBtn = e.target.closest("[data-theme-id]");
@@ -203,16 +232,29 @@ export function initSettings({ onSignOut, onReplayOnboarding }) {
       case "cat-delete":
         if (needsConfirm(btn)) return;
         return run(() => deleteCategory(id), "카테고리를 삭제했어요");
-      case "notify-toggle":
-        return run(async () => {
-          if (state.settings.notifyEnabled) {
-            await updateSettings({ notifyEnabled: false });
-            return;
-          }
-          const res = await enableNotifications();
-          await updateSettings({ notifyEnabled: true });
-          if (!res.system) showToast("알림을 켰어요. 앱 안 알림으로 알려 드려요");
-        });
+      case "notify-toggle": {
+        // 저장하면 설정 화면이 다시 그려져 스위치가 바뀌어 버리므로, 먼저 화면에서 스위치를 움직이고
+        // 미끄러지는 애니메이션(.28s)이 끝난 뒤 저장한다
+        if (btn.dataset.busy) return;
+        btn.dataset.busy = "1";
+        const turnOn = !state.settings.notifyEnabled;
+        btn.setAttribute("aria-checked", String(turnOn));
+        const minutesRow = $("setNotifyMinutes") && $("setNotifyMinutes").closest(".set-row");
+        if (minutesRow) minutesRow.classList.toggle("disabled", !turnOn);
+        return setTimeout(
+          () =>
+            run(async () => {
+              if (!turnOn) {
+                await updateSettings({ notifyEnabled: false });
+                return;
+              }
+              const res = await enableNotifications();
+              await updateSettings({ notifyEnabled: true });
+              if (!res.system) showToast("알림을 켰어요. 앱 안 알림으로 알려 드려요");
+            }).finally(() => delete btn.dataset.busy),
+          280
+        );
+      }
       case "wipe":
         if (needsConfirm(btn)) return;
         return run(removeAllSchedules, "모든 일정을 삭제했어요");
@@ -242,6 +284,7 @@ export function initSettings({ onSignOut, onReplayOnboarding }) {
     // 이름 입력 중에는 입력칸이 사라지지 않도록 건너뛴다
     if (document.activeElement && document.activeElement.id === "setNameInput") return;
     render();
+    placeAllThumbs();
   };
   bus.on("categories", rerender);
   bus.on("settings", rerender);
@@ -253,6 +296,7 @@ export function initSettings({ onSignOut, onReplayOnboarding }) {
     open() {
       render();
       ctl.open();
+      placeAllThumbs(); // 시트가 보인 뒤라야 버튼 위치를 잴 수 있다
     },
     close: ctl.close,
   };

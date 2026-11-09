@@ -37,7 +37,7 @@
   --holiday:#e2836d;
   --shadow:rgba(0,0,0,.6);
   --font-display:"Newsreader",ui-serif,Georgia,serif;
-  --font-body:"Manrope",ui-sans-serif,system-ui,sans-serif;
+  --font-body:"Pretendard Variable",Pretendard,-apple-system,system-ui,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
 }
 
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}

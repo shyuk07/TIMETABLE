@@ -82,7 +82,8 @@ export function yearBuckets(all, catId, now = new Date()) {
     if (+p[0] !== year) continue;
     sums[+p[1] - 1] += durOf(it);
   }
-  return sums.map((mins, m) => ({ label: m + 1 + "월", mins, isNow: m === now.getMonth() }));
+  // 12칸에 '10월'처럼 쓰면 글자가 겹쳐서 숫자만 쓴다 (위의 '올해 총' 문구로 월이라는 걸 알 수 있다)
+  return sums.map((mins, m) => ({ label: String(m + 1), mins, isNow: m === now.getMonth() }));
 }
 
 export function fixedMaxMins(range) {
