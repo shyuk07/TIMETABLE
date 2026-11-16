@@ -1,49 +1,59 @@
-/* ---------- tab bar ---------- */
-.tabbar{
+/* ---------- dock: 떠 있는 아이콘 탭(알약) + 일정 추가 버튼 ---------- */
+.dock{
   position:fixed;
   left:50%;
-  bottom:0;
+  bottom:calc(16px + env(safe-area-inset-bottom, 0px));
   transform:translateX(-50%);
-  width:100%;
-  max-width:440px;
   display:flex;
-  justify-content:space-around;
   align-items:center;
-  padding:9px 8px calc(9px + env(safe-area-inset-bottom, 0px));
-  background:rgb(var(--bar-rgb)); /* 불투명 — 뒤의 타임라인이 비치지 않게 */
-  border-top:1px solid rgba(var(--ink-rgb),.12);
-  z-index:15;
+  gap:12px;
+  z-index:20;
+}
+.tabbar{
+  display:flex;
+  gap:6px;
+  padding:6px;
+  border-radius:999px;
+  background:rgb(var(--bar-rgb)); /* 불투명 — 뒤의 내용이 비치지 않게 */
+  border:1px solid rgba(var(--ink-rgb),.12);
+  box-shadow:0 14px 34px var(--shadow);
 }
 .tab-item{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:3px;
-  color:var(--ink); /* 모든 테마에서 탭은 시간 숫자와 같은 글자색. 선택된 탭은 아래 점·굵은 글자로 구분 */
-  font-size:10px;
-  letter-spacing:.2px;
-  padding:4px 14px;
-  cursor:pointer;
-  background:none;
+  width:52px;height:52px;
+  border-radius:50%;
   border:none;
-  font-family:var(--font-body);
+  background:none;
+  padding:0;
+  color:var(--ink); /* 모든 테마에서 시간 숫자와 같은 글자색 */
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  transition:background .2s ease, color .2s ease;
 }
-.tab-item svg{width:21px;height:21px;}
-.tab-item.active{font-weight:700;}
-.tab-item.active .tab-dot{
-  display:block;
+.tab-item svg{width:23px;height:23px;}
+/* 선택된 탭: 글자색으로 채운 원 + 바탕색 아이콘 */
+.tab-item.active{background:var(--ink);color:var(--bg);}
+
+.fab{
+  width:60px;height:60px;
+  flex-shrink:0;
+  border-radius:22px;
+  border:none;
+  background:var(--accent);
+  color:var(--accent-ink);
+  box-shadow:0 10px 24px var(--shadow);
+  display:flex;align-items:center;justify-content:center;
+  padding:0;
+  cursor:pointer;
+  transition:transform .12s ease;
 }
-.tab-dot{
-  display:none;
-  width:3px;height:3px;border-radius:50%;
-  background:currentColor;
-  margin-top:-1px;
-}
+/* 글자 '+' 는 글꼴마다 위아래 위치가 달라 중심이 어긋나므로 SVG 로 그린다 */
+.fab svg{width:22px;height:22px;display:block;}
+.fab:active{transform:scale(.94);}
 
 .toast{
   position:fixed;
   left:50%;
-  bottom:88px;
+  bottom:calc(96px + env(safe-area-inset-bottom, 0px));
   transform:translateX(-50%) translateY(6px);
   background:rgba(var(--pop-rgb),.95);
   color:var(--ink);

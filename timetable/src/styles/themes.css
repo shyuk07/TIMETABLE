@@ -14,7 +14,7 @@
 
 /* 블랙(기본)은 base.css 의 :root — 뉴트럴 블랙 바탕, 그레이 글자·그레이 강조 */
 
-/* 브라운(id ember) — 버건디 #3B1219 바탕 + 짙은 브라운 #2B2119 원·버튼, 크림 글자 (다크)
+/* 버건디(id ember) — 버건디 #3B1219 바탕 + 짙은 브라운 #2B2119 원·버튼, 크림 글자 (다크)
    짙은 브라운은 버건디 위 글자·선으로는 안 보여서, 강조 글자·현재 시각선은 밝은 브라운으로 따로 둔다 */
 :root[data-theme="ember"]{
   --bg:#3b1219;
@@ -26,56 +26,50 @@
   --shade:rgba(15,3,5,.55); --pop-rgb:44,13,18; --bar-rgb:34,9,13; --shadow:rgba(10,2,3,.55);
 }
 
-/* 화이트 — 기본 라이트: 살짝 그레이 낀 흰 바탕, 짙은 그레이 글자·강조 */
+/* 화이트 — 깨끗한 흰 바탕 #FCFCFB + 에스프레소 #2E2723 글자·강조, 카드는 아주 옅은 웜그레이 (라이트) */
 :root[data-theme="white"]{
   color-scheme:light;
-  --bg:#e2e2e2;
-  --ink:#222222; --ink-rgb:34,34,34;
-  --accent:#3c3c3c; --accent-rgb:60,60,60; --accent-hi:#222222; --accent-ink:#ebebeb;
-  --sheet:#e5e5e5;
-  --shade:rgba(0,0,0,.32); --pop-rgb:241,241,241; --bar-rgb:236,236,236; --shadow:rgba(0,0,0,.12);
-  --clock-rim:rgba(0,0,0,.25);
-  --ink-dim:rgba(var(--ink-rgb),.78); --ink-faint:rgba(var(--ink-rgb),.55); /* 밝은 바탕이라 흐린 글씨를 더 진하게 */
-  --surface:rgba(0,0,0,.05); --surface-strong:rgba(0,0,0,.1); --surface-soft:rgba(0,0,0,.03);
-  --danger:#c94f41; --danger-rgb:201,79,65; --on-danger:#ffffff; --holiday:#d0503c;
+  --bg:#fcfcfb;
+  --ink:#2e2723; --ink-rgb:46,39,35;
+  --accent:#2e2723; --accent-rgb:46,39,35; --accent-hi:#1f1a17; --accent-ink:#fcfcfb;
+  --accent-text:#7a6350;
+  --sheet:#ffffff;
+  --shade:rgba(30,25,20,.3); --pop-rgb:255,255,255; --bar-rgb:245,244,242; --shadow:rgba(46,39,35,.12);
+  --clock-rim:rgba(46,39,35,.25);
+  --ink-dim:rgba(var(--ink-rgb),.72); --ink-faint:rgba(var(--ink-rgb),.48); /* 밝은 바탕이라 흐린 글씨를 더 진하게 */
+  --surface:rgba(70,58,48,.055); --surface-strong:rgba(70,58,48,.11); --surface-soft:rgba(70,58,48,.03);
+  --danger:#b5523f; --danger-rgb:181,82,63; --on-danger:#ffffff; --holiday:#c4553f;
 }
 
-/* 네이비(id cream) — Lemon Chiffon #FFFACD 바탕 + Navy #002B62 글자·강조 (라이트) */
+/* 네이비(id cream) — 깨끗한 레몬크림 #FFFCEC 바탕 + Navy #002B62 글자·강조 (라이트)
+   카드는 네이비를 얹으면 누런 올리브빛으로 탁해져서, 조금 더 짙은 레몬색을 얹는다 */
 :root[data-theme="cream"]{
   color-scheme:light;
-  --bg:#fffacd;
+  --bg:#fffcec;
   --ink:#002b62; --ink-rgb:0,43,98;
-  --accent:#002b62; --accent-rgb:0,43,98; --accent-hi:#001a3d; --accent-ink:#fffacd;
-  --sheet:#fffde6;
-  --shade:rgba(0,20,50,.32); --pop-rgb:255,253,230; --bar-rgb:255,248,196; --shadow:rgba(0,43,98,.14);
+  --accent:#002b62; --accent-rgb:0,43,98; --accent-hi:#001a3d; --accent-ink:#fffcec;
+  --sheet:#fffef7;
+  --shade:rgba(0,20,50,.32); --pop-rgb:255,254,247; --bar-rgb:255,248,217; --shadow:rgba(0,43,98,.14);
   --clock-rim:rgba(0,43,98,.25);
-  --surface:rgba(0,43,98,.05); --surface-strong:rgba(0,43,98,.1); --surface-soft:rgba(0,43,98,.03);
-  --danger:#c24d3f; --danger-rgb:194,77,63; --on-danger:#fffacd; --holiday:#cc4b38;
+  --ink-dim:rgba(var(--ink-rgb),.72); --ink-faint:rgba(var(--ink-rgb),.48);
+  --surface:rgba(250,222,110,.24); --surface-strong:rgba(250,222,110,.46); --surface-soft:rgba(250,222,110,.13);
+  --danger:#c24d3f; --danger-rgb:194,77,63; --on-danger:#fffcec; --holiday:#cc4b38;
 }
 
-/* 그린(id green-gold) — 민트 #E0ECDE 바탕 + 틸 #2C6975 강조, 짙은 틸 글자 (라이트) */
-:root[data-theme="green-gold"]{
-  color-scheme:light;
-  --bg:#e0ecde;
-  --ink:#1d4a53; --ink-rgb:29,74,83;
-  --accent:#2c6975; --accent-rgb:44,105,117; --accent-hi:#3f8f9c; --accent-ink:#ffffff;
-  --sheet:#eef6ec;
-  --shade:rgba(16,48,54,.32); --pop-rgb:244,250,243; --bar-rgb:236,245,234; --shadow:rgba(44,105,117,.18);
-  --clock-rim:rgba(44,105,117,.3);
-  --surface:rgba(44,105,117,.07); --surface-strong:rgba(44,105,117,.14); --surface-soft:rgba(44,105,117,.04);
-  --danger:#b84a3c; --danger-rgb:184,74,60; --on-danger:#f3f3f3; --holiday:#c0482f;
-}
-
-/* 파스텔(id neo-pastel) — Pink Marshmallow(PANTONE 12-2907) #F0E1E8 바탕 + 핑크 #F2C6E2 칸·꾸밈 + 라벤더 #E8D6FB 포인트, 짙은 자두색 글자 (라이트) */
+/* 파스텔(id neo-pastel) — 색은 셋만: 깨끗한 핑크크림 #FCF0F4 바탕 + 자두 #45344F 글자 + 세이지 #9CAF88 포인트 (라이트)
+   카드는 글자색(자두)을 얹으면 회보라빛으로 탁해져서, 조금 더 짙은 핑크를 얹는다 */
 :root[data-theme="neo-pastel"]{
   color-scheme:light;
-  --bg:#f0e1e8;
-  --ink:#4b3354; --ink-rgb:75,51,84;
-  --accent:#e8d6fb; --accent-rgb:232,214,251; --accent-hi:#f3eafd; --accent-ink:#4b3354;
-  --sheet:#fdf2f8;
-  --shade:rgba(75,40,70,.28); --pop-rgb:253,242,248; --bar-rgb:238,213,232; --shadow:rgba(150,90,130,.18);
-  --clock-rim:rgba(120,80,150,.3); --accent-text:#8a5cc7;
+  --bg:#fcf0f4;
+  --ink:#45344f; --ink-rgb:69,52,79;
+  --accent:#9caf88; --accent-rgb:156,175,136; --accent-hi:#b2c2a1; --accent-ink:#45344f;
+  --accent-text:#5f7a4e;
+  --sheet:#fffafc;
+  --shade:rgba(60,35,50,.3); --pop-rgb:255,250,252; --bar-rgb:250,229,238; --shadow:rgba(69,52,79,.14);
+  --clock-rim:rgba(69,52,79,.25);
   --ink-dim:rgba(var(--ink-rgb),.78); --ink-faint:rgba(var(--ink-rgb),.55);
-  --surface:rgba(242,198,226,.5); --surface-strong:rgba(242,198,226,.85); --surface-soft:rgba(242,198,226,.28);
-  --danger:#c2506a; --danger-rgb:194,80,106; --on-danger:#ffffff; --holiday:#d0506a;
+  --surface:rgba(238,160,195,.2); --surface-strong:rgba(238,160,195,.38); --surface-soft:rgba(238,160,195,.11);
+  --danger:#b8506a; --danger-rgb:184,80,106; --on-danger:#ffffff; --holiday:#c4506a;
 }
+/* 파스텔: 아래 + 버튼만은 세이지 대신 핑크 (탭바와 같은 계열로) */
+:root[data-theme="neo-pastel"] .fab{background:#f0b3cb;color:var(--ink);}

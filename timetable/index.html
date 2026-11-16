@@ -81,10 +81,37 @@
   </div>
 </main>
 
-<div id="mainView" hidden>
+<div id="mainView" data-mode="home" hidden>
+<!-- 홈(벤토): 요일 줄 + 타일. 타일을 누르면 아래 타임라인으로 들어간다 (src/features/home.js) -->
+<div class="home" id="homeView">
+  <div class="home-date" id="homeDate"></div>
+  <div class="week-strip" id="homeWeek"></div>
+  <div class="bento">
+    <button type="button" class="tile tile-now" id="homeNow">
+      <span class="tile-now-left"><span class="tile-k">지금</span><span class="tile-time" id="homeNowTime">--:--</span></span>
+      <span class="tile-now-right"><b id="homeNowTitle"></b><small id="homeNowSub"></small></span>
+    </button>
+    <button type="button" class="tile tile-next" id="homeNext"></button>
+    <button type="button" class="tile tile-dday" id="homeDday"></button>
+    <button type="button" class="tile tile-wide" id="homeDay">
+      <span class="tile-k" id="homeDayLabel">오늘 하루</span>
+      <span class="day-strip" id="homeStrip"></span>
+      <span class="day-scale"><span>0</span><span>6</span><span>12</span><span>18</span><span>24</span></span>
+    </button>
+    <div class="tile tile-wide" id="homePlan">
+      <div class="tile-k" id="homePlanLabel">오늘 계획</div>
+      <div class="plan-bar" id="homePlanBar"></div>
+      <div class="plan-legend" id="homePlanLegend"></div>
+    </div>
+  </div>
+</div>
+
 <div class="app-header" id="appHeader">
   <div class="topbar">
     <div class="brand">
+      <button class="back-btn" id="homeBtn" type="button" aria-label="홈으로">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
       <span class="brand-date" id="dateLabel"></span>
       <button class="today-chip" id="todayChip" hidden aria-label="오늘로 돌아가기">돌아가기</button>
       <span class="dday-chip" id="ddayChip" hidden></span>
@@ -96,14 +123,6 @@
   </div>
 
   <div class="now-hero">
-    <div class="now-clock">
-      <svg viewBox="0 0 52 52">
-        <circle cx="26" cy="26" r="24.3" fill="none" stroke="currentColor" stroke-opacity=".25" stroke-width="1"/>
-        <line id="hourHand" x1="26" y1="26" x2="26" y2="15" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
-        <line id="minHand" x1="26" y1="26" x2="26" y2="10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-        <circle cx="26" cy="26" r="1.6" fill="currentColor"/>
-      </svg>
-    </div>
     <div>
       <div class="now-time" id="nowTime">--:--</div>
       <div class="now-label">지금</div>
@@ -118,32 +137,26 @@
   </div>
 </div>
 
+<!-- 아래에 떠 있는 묶음: 아이콘 탭(알약) + 일정 추가 버튼 -->
+<div class="dock">
+<nav class="tabbar">
+  <button class="tab-item active" data-tab="home" aria-label="홈">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 1.8"/></svg>
+  </button>
+  <button class="tab-item" data-tab="calendar" aria-label="캘린더">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></svg>
+  </button>
+  <button class="tab-item" data-tab="stats" aria-label="통계">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M12 20V4M20 20v-7"/></svg>
+  </button>
+  <button class="tab-item" data-tab="settings" aria-label="설정">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><circle cx="9" cy="6" r="2"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="15" cy="12" r="2"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="10" cy="18" r="2"/></svg>
+  </button>
+</nav>
 <button class="fab" id="addBtn" aria-label="일정 추가">
   <svg viewBox="0 0 21 21" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><line x1="10.5" y1="1.3" x2="10.5" y2="19.7"/><line x1="1.3" y1="10.5" x2="19.7" y2="10.5"/></svg>
 </button>
-
-<nav class="tabbar">
-  <button class="tab-item active" data-tab="home">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 1.8"/></svg>
-    <span>타임라인</span>
-    <span class="tab-dot"></span>
-  </button>
-  <button class="tab-item" data-tab="calendar">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></svg>
-    <span>캘린더</span>
-    <span class="tab-dot"></span>
-  </button>
-  <button class="tab-item" data-tab="stats">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M12 20V4M20 20v-7"/></svg>
-    <span>통계</span>
-    <span class="tab-dot"></span>
-  </button>
-  <button class="tab-item" data-tab="settings">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><circle cx="9" cy="6" r="2"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="15" cy="12" r="2"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="10" cy="18" r="2"/></svg>
-    <span>설정</span>
-    <span class="tab-dot"></span>
-  </button>
-</nav>
+</div>
 </div>
 
 <div class="toast" id="toast"></div>

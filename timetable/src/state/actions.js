@@ -2,7 +2,7 @@
 // 화면 모듈은 repo를 직접 부르지 않는다.
 
 import { state, bus } from "./store.js";
-import { startOfDay, toDateStr } from "../lib/dates.js";
+import { findOverlap, startOfDay, toDateStr } from "../lib/dates.js";
 
 export async function loadCore() {
   const { repo } = state;
@@ -45,6 +45,10 @@ export async function setViewDate(d) {
 
 // ---- 일정 ----
 export async function saveSchedule({ id, title, start, end, categoryId }) {
+  // 한 번에 하나의 일정만: 같은 날 다른 일정과 시간이 겹치면 저장하지 않는다
+  // (겹치면 홈의 '지금' 타일·타임라인 칸·통계 합계가 모두 어긋난다)
+  const clash = findOverlap(state.items, { start, end }, id);
+  if (clash) throw new Error(`'${clash.title}' 일정(${clash.start}–${clash.end})과 시간이 겹쳐요`);
   const payload = { date: state.viewDateStr, title, start, end, categoryId };
   if (id) await state.repo.schedules.update(id, payload);
   else await state.repo.schedules.create(payload);

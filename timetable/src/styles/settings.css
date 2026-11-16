@@ -8,16 +8,15 @@
   max-height:92vh;
   overflow-y:auto;
   background:var(--sheet);
-  border:1px solid rgba(var(--ink-rgb),.14);border-bottom:none;
-  border-radius:22px 22px 0 0;
+  border-radius:30px 30px 0 0;
   padding:20px 20px calc(24px + env(safe-area-inset-bottom, 0px));
   z-index:33;
   box-shadow:0 -16px 40px var(--shadow);
 }
 .set-body{display:flex;flex-direction:column;gap:22px;}
 /* 계정·테마·카테고리… 소제목: 크고 진하게 강조 */
-.set-h{margin:0 0 10px;font-size:16px;font-weight:800;color:var(--ink);}
-.set-card{background:var(--surface);border:1px solid rgba(var(--ink-rgb),.14);border-radius:16px;overflow:hidden;}
+.set-h{margin:0 0 10px 2px;font-size:17px;font-weight:700;letter-spacing:-.2px;color:var(--ink);}
+.set-card{background:var(--surface);border-radius:22px;overflow:hidden;}
 /* 카드 안 항목 사이 구분선. :not() 으로 우선순위를 높여 버튼의 border:none 에 지워지지 않게 한다 */
 .set-card > :not(:first-child){border-top:1px solid rgba(var(--ink-rgb),.1);}
 .set-foot{margin:8px 4px 0;font-size:12px;line-height:1.6;color:var(--ink-faint);}
@@ -29,7 +28,7 @@
 .set-avatar{
   width:46px;height:46px;flex-shrink:0;border-radius:50%;
   background:var(--accent);color:var(--accent-ink);
-  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;
 }
 .set-profile-main{flex:1;min-width:0;}
 .set-name{
@@ -101,7 +100,7 @@
   color:var(--ink-dim);font-family:var(--font-body);font-size:11.5px;
 }
 .theme-swatch{
-  width:100%;aspect-ratio:1;max-width:62px;border-radius:14px;
+  width:100%;aspect-ratio:1;max-width:62px;border-radius:18px;
   border:1px solid rgba(var(--ink-rgb),.25);
   box-shadow:0 0 0 0 transparent;
   transition:box-shadow .15s ease, transform .15s ease;

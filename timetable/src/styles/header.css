@@ -34,6 +34,15 @@
   min-height:24px;
 }
 .brand-date{white-space:nowrap;}
+/* 타임라인 → 홈으로 돌아가는 버튼 */
+.back-btn{
+  width:28px;height:28px;margin-left:-8px;margin-right:-4px;
+  border:none;background:none;padding:0;cursor:pointer;
+  color:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.back-btn svg{width:20px;height:20px;}
 .brand-mark{
   font-family:var(--font-display);
   font-style:italic;
@@ -42,10 +51,10 @@
   letter-spacing:.2px;
 }
 .brand-date{
-  font-size:15px;
-  font-weight:600;
-  color:var(--ink);
-  letter-spacing:.2px;
+  font-size:12.5px;
+  font-weight:500;
+  color:var(--ink-dim);
+  letter-spacing:1.6px;
 }
 .today-chip{
   font-family:var(--font-body);
@@ -73,50 +82,39 @@
 }
 .menu-btn{
   width:36px;height:36px;
-  border-radius:50%;
-  border:1px solid rgba(var(--ink-rgb),.28);
-  background:var(--surface);
+  margin-right:-8px;
+  border:none;
+  background:none;
+  padding:0;
+  cursor:pointer;
   display:flex;align-items:center;justify-content:center;
   color:var(--ink);
   flex-shrink:0;
 }
-.menu-btn svg{width:16px;height:16px;}
+.menu-btn svg{width:18px;height:18px;}
 
 /* ---------- now hero ---------- */
+/* 시계 아이콘 없이 숫자를 크게 — 홈의 '지금' 타일과 같은 글꼴·굵기 */
 .now-hero{
-  display:flex;
-  align-items:center;
-  gap:14px;
   /* 아래 여백에 '지금' 라벨 자리 포함 (라벨은 흐름에서 빠져 있음) */
-  padding-block:6px 32px;
+  padding-block:0 30px;
   flex-shrink:0;
 }
-/* 시계는 시간 숫자 줄과 중심을 맞추고, 라벨은 그 아래에 띄운다 */
-.now-hero > div:last-child{position:relative;}
-.now-clock{
-  width:52px;height:52px;border-radius:50%;
-  background:var(--accent);
-  box-shadow:0 6px 16px var(--shadow), inset 0 0 0 1px var(--clock-rim);
-  flex-shrink:0;
-  position:relative;
-}
-.now-clock{color:var(--accent-ink);}
-.now-clock svg{position:absolute;inset:0;width:100%;height:100%;}
+.now-hero > div{position:relative;display:inline-block;}
 .now-time{
   font-family:var(--font-body);
   font-weight:600;
-  font-size:40px;
-  letter-spacing:-.3px;
+  font-size:56px;
+  letter-spacing:-2px;
   line-height:1;
   font-variant-numeric:tabular-nums;
 }
 .now-label{
   font-size:11.5px;
-  text-transform:uppercase;
-  letter-spacing:1.4px;
+  letter-spacing:3px;
   color:var(--ink-faint);
   position:absolute;
-  top:100%;left:0;
+  top:100%;left:2px;
   margin-top:4px;
   white-space:nowrap;
 }

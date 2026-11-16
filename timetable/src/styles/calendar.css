@@ -9,9 +9,7 @@
   max-height:min(640px, 84vh);
   overflow-y:auto;
   background:var(--sheet);
-  border:1px solid rgba(var(--ink-rgb),.14);
-  border-bottom:none;
-  border-radius:22px 22px 0 0;
+  border-radius:30px 30px 0 0;
   padding:20px 20px calc(22px + env(safe-area-inset-bottom, 0px));
   z-index:33;
   box-shadow:0 -16px 40px var(--shadow);
@@ -25,21 +23,20 @@
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding-bottom:16px;
-  margin-bottom:18px;
-  border-bottom:1px solid rgba(var(--ink-rgb),.12);
+  margin-bottom:20px;
 }
 .cal-title{
   font-family:var(--font-body);
   font-style:normal;
   font-weight:700;
-  font-size:20px;
+  font-size:22px;
+  letter-spacing:-.4px;
 }
 .cal-close{
-  width:37px;height:37px;
+  width:38px;height:38px;
   border-radius:50%;
-  border:1px solid rgba(var(--ink-rgb),.28);
-  background:var(--surface);
+  border:none;
+  background:var(--surface-strong);
   color:var(--ink);
   display:flex;align-items:center;justify-content:center;
   cursor:pointer;
@@ -53,17 +50,17 @@
   margin-bottom:14px;
 }
 .cal-month-label{
-  font-size:15px;
+  font-size:17px;
   font-weight:700;
   color:var(--ink);
-  letter-spacing:.2px;
+  letter-spacing:-.2px;
 }
-/* 월 이동 버튼(39px)은 .cal-close(37px)보다 넓으므로 차이의 절반만큼 오른쪽으로 내밀어 가운데 세로 줄을 맞춘다 */
-.cal-month-nav{display:flex;flex-direction:column;gap:4px;margin-right:-1px;}
+/* 월 이동 버튼은 .cal-close 와 같은 폭(38px) → 가운데 세로 줄이 맞는다 */
+.cal-month-nav{display:flex;flex-direction:column;gap:4px;}
 .cal-month-nav button{
-  width:39px;height:33px;
-  border-radius:8px;
-  border:1px solid rgba(var(--ink-rgb),.18);
+  width:38px;height:33px;
+  border-radius:12px;
+  border:none;
   background:var(--surface);
   color:var(--ink-dim);
   display:flex;align-items:center;justify-content:center;
@@ -124,9 +121,10 @@
 .cal-day.past{opacity:.5;}
 .cal-day.holiday{color:var(--holiday);}
 .cal-day.holiday.dim{color:var(--holiday);opacity:.45;}
+/* 고른 날: 홈의 요일 줄과 같게 글자색으로 채운 원 */
 .cal-day.selected{
-  background:var(--accent);
-  color:var(--accent-ink);
+  background:var(--ink);
+  color:var(--bg);
   font-weight:700;
 }
 .cal-dot{
@@ -135,7 +133,7 @@
   transform:translateX(-50%);
   width:4px;height:4px;
   border-radius:50%;
-  background:var(--accent);
+  background:var(--ink);
   display:none;
 }
 .cal-day.today:not(.selected) .cal-dot{display:block;}
@@ -150,12 +148,10 @@
   border-radius:50%;
   background:var(--accent-text, var(--accent));
 }
-.cal-day.selected.has-dday::before{background:var(--accent-ink);}
+.cal-day.selected.has-dday::before{background:var(--bg);}
 
 .cal-dday{
-  margin-top:18px;
-  padding-top:16px;
-  border-top:1px solid rgba(var(--ink-rgb),.12);
+  margin-top:26px;
 }
 .cal-dday-head{
   display:flex;
@@ -163,10 +159,10 @@
   justify-content:space-between;
   margin-bottom:10px;
 }
-.cal-dday-title{font-size:15px;font-weight:700;color:var(--ink);}
+.cal-dday-title{font-size:17px;font-weight:700;letter-spacing:-.2px;color:var(--ink);}
 .cal-dday-add{
-  border:1px solid rgba(var(--ink-rgb),.2);
-  background:var(--surface);
+  border:none;
+  background:var(--surface-strong);
   color:var(--ink);
   font-family:var(--font-body);
   font-size:13px;
@@ -184,10 +180,10 @@
   gap:12px;
   width:100%;
   text-align:left;
-  padding:12px 14px;
+  padding:15px 16px;
   background:var(--surface);
-  border:1px solid rgba(var(--ink-rgb),.12);
-  border-radius:14px;
+  border:none;
+  border-radius:20px;
   color:var(--ink);
   font-family:var(--font-body);
   cursor:pointer;
@@ -199,7 +195,7 @@
 .cal-dday-count{
   flex-shrink:0;
   font-size:15px;
-  font-weight:800;
+  font-weight:700;
   font-variant-numeric:tabular-nums;
   color:var(--accent-text, var(--accent));
 }
@@ -224,9 +220,7 @@
   width:100%;
   max-width:440px;
   background:var(--sheet);
-  border:1px solid rgba(var(--ink-rgb),.14);
-  border-bottom:none;
-  border-radius:22px 22px 0 0;
+  border-radius:30px 30px 0 0;
   padding:20px 20px calc(22px + env(safe-area-inset-bottom, 0px));
   z-index:35;
   box-shadow:0 -16px 40px var(--shadow);
@@ -234,11 +228,12 @@
 .dday-sheet h2{
   font-family:var(--font-body);
   font-weight:700;
-  font-size:20px;
+  font-size:22px;
+  letter-spacing:-.4px;
   margin:0 0 16px;
 }
 .dday-date-label{display:flex;align-items:baseline;justify-content:space-between;}
-.dday-preview{font-size:14px;font-weight:800;color:var(--accent-text, var(--accent));font-variant-numeric:tabular-nums;}
+.dday-preview{font-size:14px;font-weight:700;color:var(--accent-text, var(--accent));font-variant-numeric:tabular-nums;}
 .dday-sheet .tp-wheels{margin-bottom:4px;}
 .btn-delete.armed{color:var(--on-danger);background:var(--danger);border-color:var(--danger);}
 /* 캘린더 맨 위 손잡이: 아래로 쓸어내려 닫을 수 있다는 표시 (시트 위쪽 여백 안에 들어가게) */

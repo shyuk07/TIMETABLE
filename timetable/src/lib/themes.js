@@ -4,11 +4,10 @@
 
 export const THEMES = [
   { id: "black", name: "블랙", color: "#101010" },
-  { id: "white", name: "화이트", color: "#e2e2e2" },
-  { id: "ember", name: "브라운", color: "#3b1219" },
-  { id: "cream", name: "네이비", color: "#fffacd" },
-  { id: "green-gold", name: "그린", color: "#e0ecde" },
-  { id: "neo-pastel", name: "파스텔", color: "#f0e1e8" },
+  { id: "white", name: "화이트", color: "#fcfcfb" },
+  { id: "ember", name: "버건디", color: "#3b1219" },
+  { id: "cream", name: "네이비", color: "#fffcec" },
+  { id: "neo-pastel", name: "파스텔", color: "#fcf0f4" },
   // 새 테마는 여기에 { id, name, color } 를 추가하고, src/styles/themes.css 에 같은 id 의 블록을 만든다.
 ];
 export const DEFAULT_THEME = "black";
@@ -43,6 +42,7 @@ export function hasThemeChoice() {
 /** 테마 선택 버튼들의 HTML (설정 · 온보딩 공용). 클릭은 [data-theme-id] 로 받는다. */
 export function themePickerHtml(selectedId) {
   if (THEMES.length < 2) return ""; // 테마가 하나뿐이면 선택 UI를 보여 주지 않는다
+  if (!isTheme(selectedId)) selectedId = DEFAULT_THEME; // 없어진 테마(예: 그린)를 쓰던 사람은 기본 테마가 선택된 것으로 보인다
   return `<div class="theme-grid" role="radiogroup" aria-label="배경 테마">${THEMES.map(
     (t) => `
     <button type="button" class="theme-opt" role="radio" aria-checked="${t.id === selectedId}" data-theme-id="${t.id}">

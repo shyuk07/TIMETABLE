@@ -1,4 +1,4 @@
-// 타임라인 화면: 고정 헤더(날짜 + 지금 시계), 시간 레일, 일정 블록, 현재 시각선.
+// 타임라인 화면: 고정 헤더(날짜 + 지금 시각), 시간 레일, 일정 블록, 현재 시각선.
 
 import { state, bus, categoryById } from "../state/store.js";
 import { setViewDate } from "../state/actions.js";
@@ -33,7 +33,7 @@ function syncHeaderHeight() {
 
 // 헤더 밑으로 지나가는 내용이 서서히 사라지도록 마스크를 스크롤마다 직접 계산한다
 // (`mask-attachment: fixed` 가 모든 브라우저에서 지원되지 않기 때문)
-const FADE_BAND = 34;
+const FADE_BAND = 12; // 헤더의 "지금" 글자 아래에서만 흐려지게 (크면 지나가는 시간 눈금이 "지금"과 겹쳐 보인다)
 let maskTicking = false;
 function applyContentMask() {
   maskTicking = false;
@@ -73,10 +73,6 @@ function showDatedChip(chip, items) {
 export function positionNow() {
   const d = new Date();
   $("nowTime").textContent = String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
-  const hourDeg = ((d.getHours() % 12) + d.getMinutes() / 60) * 30;
-  const minDeg = d.getMinutes() * 6;
-  $("hourHand").setAttribute("transform", `rotate(${hourDeg} 26 26)`);
-  $("minHand").setAttribute("transform", `rotate(${minDeg} 26 26)`);
 
   // 점선 '지금' 선은 오늘 타임라인에서만 의미가 있다
   if (state.viewDateStr !== todayStr()) {
@@ -95,7 +91,7 @@ export function renderBlocks() {
   emptyNote.hidden = items.length > 0;
 
   const GAP = 4;
-  const MIN_H = 40;
+  const MIN_H = 52; // 제목 + 시간 두 줄이 잘리지 않는 높이
   let maxBottom = 0;
 
   items.forEach((item, idx) => {
@@ -121,7 +117,7 @@ export function renderBlocks() {
     el.style.top = top + "px";
     el.style.height = height + "px";
     el.style.setProperty("--cat-color", cat.bg);
-    el.innerHTML = '<div class="block-dot"></div><div class="block-title"></div><div class="block-time"></div>';
+    el.innerHTML = '<div class="block-title"></div><div class="block-time"></div>';
     el.querySelector(".block-title").textContent = item.title;
     el.querySelector(".block-time").textContent = `${item.start} – ${item.end} · ${cat.name}`;
     el.addEventListener("click", () => onOpenItem(item));
@@ -133,11 +129,29 @@ export function renderBlocks() {
 
 /** 앱에 들어오면 맨 위가 아니라 '지금' 근처로 스크롤 */
 export function scrollToNow() {
+  if ($("mainView").dataset.mode !== "timeline") return; // 홈 화면에서는 타임라인이 숨겨져 있다
   if (state.viewDateStr !== todayStr()) return;
   const clamped = Math.max(DAY_START, Math.min(DAY_END, minsNow()));
   const lineTopInWrap = (clamped - DAY_START) * PX_PER_MIN;
   const wrapAbsTop = wrap.getBoundingClientRect().top + window.pageYOffset;
   window.scrollTo(0, Math.max(0, wrapAbsTop + lineTopInWrap - window.innerHeight * 0.32));
+}
+
+/**
+ * 홈에서 타임라인으로 들어올 때: 숨겨져 있던 동안 못 잰 헤더 높이를 다시 재고,
+ * min(분)이 있으면 그 시각이 헤더 바로 아래에 오게, 없으면 '지금' 위치로 스크롤한다.
+ */
+export function revealTimeline(min) {
+  syncHeaderHeight();
+  positionNow();
+  if (min == null) {
+    if (state.viewDateStr === todayStr()) scrollToNow();
+    else window.scrollTo(0, 0);
+  } else {
+    const wrapAbsTop = wrap.getBoundingClientRect().top + window.pageYOffset;
+    window.scrollTo(0, Math.max(0, wrapAbsTop + (min - DAY_START) * PX_PER_MIN - headerHpx - 24));
+  }
+  applyContentMask();
 }
 
 /** 메인 화면이 보이게 된 직후(로그인/온보딩 이후) 한 번 호출 — 숨겨진 동안은 높이를 잴 수 없다 */

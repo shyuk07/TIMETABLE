@@ -11,9 +11,7 @@
   width:100%;
   max-width:440px;
   background:var(--sheet);
-  border:1px solid rgba(var(--ink-rgb),.14);
-  border-bottom:none;
-  border-radius:22px 22px 0 0;
+  border-radius:30px 30px 0 0;
   padding:20px 20px calc(22px + env(safe-area-inset-bottom, 0px));
   z-index:37;
   box-shadow:0 -16px 40px var(--shadow);
@@ -21,7 +19,8 @@
 .cat-sheet h2{
   font-family:var(--font-body);
   font-weight:700;
-  font-size:20px;
+  font-size:22px;
+  letter-spacing:-.4px;
   margin:0 0 16px;
 }
 
@@ -30,9 +29,9 @@
   position:relative;
   flex:1 1 28%;
   text-align:center;
-  padding:9px 6px;
-  border-radius:10px;
-  border:1px solid rgba(var(--ink-rgb),.18);
+  padding:11px 6px;
+  border-radius:14px;
+  border:1px solid transparent;
   background:var(--surface);
   font-size:13px;
   color:var(--ink-dim);
@@ -43,6 +42,8 @@
 }
 /* 선택된 카테고리는 카테고리별 색 대신 테마의 강조색 하나로 통일 */
 .chip[data-active="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);}
+/* 버건디 테마(id ember)는 강조색(짙은 브라운)이 시트 바탕과 비슷해서, 고른 칩에 밝은 테두리를 둘러 구분한다 */
+:root[data-theme="ember"] .chip[data-active="true"]{border-color:rgba(var(--ink-rgb),.55);}
 .chip.delete-armed{
   animation:chip-armed-pulse .5s ease-in-out infinite alternate;
 }
@@ -69,16 +70,15 @@
 }
 .field-label-row{display:flex;align-items:center;justify-content:space-between;margin-top:16px;margin-bottom:6px;}
 .field-label-row label{
-  font-size:11.5px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-  color:var(--ink-faint);
+  font-size:12.5px;
+  font-weight:600;
+  color:var(--ink-dim);
 }
 .add-cat-btn{
-  width:22px;height:22px;
+  width:24px;height:24px;
   border-radius:50%;
-  border:1px solid rgba(var(--ink-rgb),.28);
-  background:var(--surface);
+  border:none;
+  background:var(--surface-strong);
   color:var(--ink-dim);
   font-size:15px;
   line-height:1;

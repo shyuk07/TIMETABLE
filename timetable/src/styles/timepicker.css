@@ -12,9 +12,7 @@
   width:100%;
   max-width:440px;
   background:var(--sheet);
-  border:1px solid rgba(var(--ink-rgb),.14);
-  border-bottom:none;
-  border-radius:22px 22px 0 0;
+  border-radius:30px 30px 0 0;
   padding:14px 20px calc(18px + env(safe-area-inset-bottom, 0px));
   z-index:37;
   box-shadow:0 -16px 40px var(--shadow);

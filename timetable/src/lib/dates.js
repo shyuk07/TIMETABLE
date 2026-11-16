@@ -67,6 +67,16 @@ export function normTime(t) {
   return typeof t === "string" ? t.slice(0, 5) : t;
 }
 
+/**
+ * items 중에서 [start, end) 와 시간이 겹치는 첫 일정을 돌려준다 (없으면 null).
+ * 끝과 시작이 딱 붙는 것(09:50 끝 · 09:50 시작)은 겹침이 아니다. ignoreId: 수정 중인 일정 자신은 뺀다.
+ */
+export function findOverlap(items, { start, end }, ignoreId) {
+  const s = toMin(start);
+  const e = toMin(end);
+  return items.find((it) => it.id !== ignoreId && toMin(it.start) < e && s < toMin(it.end)) || null;
+}
+
 export function fmtDuration(mins) {
   mins = Math.max(0, Math.round(mins));
   if (!mins) return "0분";

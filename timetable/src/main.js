@@ -10,6 +10,7 @@ import { initTimeline, activateTimeline, onItemClick } from "./features/timeline
 import { initScheduleSheet } from "./features/schedule-sheet.js";
 import { initDragCreate } from "./features/drag-create.js";
 import { initCalendar } from "./features/calendar.js";
+import { initHome } from "./features/home.js";
 import { initStats } from "./features/stats.js";
 import { initSettings } from "./features/settings.js";
 import { initAuthView } from "./features/auth-view.js";
@@ -42,6 +43,7 @@ async function boot() {
   initDragCreate({ openNewSheet: scheduleSheet.openNew });
   const calendar = initCalendar();
   const stats = initStats();
+  const home = initHome({ openCalendar: () => calendar.open() });
   const auth = initAuthView({ repo });
   const onboarding = initOnboarding();
   const settings = initSettings({
@@ -64,7 +66,8 @@ async function boot() {
     tab.addEventListener("click", () => {
       const t = tab.dataset.tab;
       closeSheets();
-      if (t === "calendar") calendar.open();
+      if (t === "home") home.showHome();
+      else if (t === "calendar") calendar.open();
       else if (t === "stats") stats.open();
       else if (t === "settings") settings.open();
     });
@@ -82,6 +85,7 @@ async function boot() {
   async function enterApp() {
     mainView.hidden = false;
     entered = true;
+    home.showHome(); // 시작 화면은 홈. 타임라인은 타일을 눌러 들어간다
     activateTimeline();
     await setViewDate(new Date());
     activateTimeline(); // 일정까지 그린 뒤 '지금' 위치로 한 번 더 맞춘다

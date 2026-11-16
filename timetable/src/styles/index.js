@@ -5,6 +5,7 @@ import "./base.css";
 import "./themes.css";
 import "./header.css";
 import "./timeline.css";
+import "./home.css";
 import "./sheet.css";
 import "./timepicker.css";
 import "./categories.css";

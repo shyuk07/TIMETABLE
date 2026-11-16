@@ -1,0 +1,84 @@
+/* ---------- 홈(벤토) ----------
+   #mainView[data-mode] 가 홈과 타임라인 중 무엇을 보일지 정한다 (src/features/home.js) */
+#mainView[data-mode="home"] .app-header,
+#mainView[data-mode="home"] .app{display:none;}
+#mainView[data-mode="timeline"] .home{display:none;}
+
+.home{
+  width:100%;
+  max-width:440px;
+  min-height:100vh;
+  margin:0 auto;
+  padding:calc(22px + env(safe-area-inset-top, 0px)) 20px calc(110px + env(safe-area-inset-bottom, 0px));
+}
+.home-date{font-size:14px;font-weight:600;color:var(--ink-dim);}
+
+/* 요일 줄: 보고 있는 날은 채운 알약, 오늘은 숫자 아래 점 */
+.week-strip{display:flex;justify-content:space-between;margin:14px 0 16px;}
+.week-day{
+  position:relative;
+  width:13%;max-width:46px;
+  padding:8px 0 10px;
+  border:none;border-radius:16px;background:none;cursor:pointer;
+  font-family:var(--font-body);font-size:11px;font-weight:600;color:var(--ink-faint);
+  text-align:center;
+  transition:background .2s ease, color .2s ease;
+}
+.week-day b{display:block;margin-top:4px;font-size:16px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;transition:color .2s ease;}
+.week-day.on{background:var(--ink);color:var(--bg);}
+.week-day.on b{color:var(--bg);}
+.week-day.today::after{
+  content:"";position:absolute;left:50%;bottom:4px;transform:translateX(-50%);
+  width:4px;height:4px;border-radius:50%;background:currentColor;
+}
+
+.bento{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.tile{
+  display:block;
+  min-width:0;
+  border:none;
+  border-radius:24px;
+  background:var(--surface);
+  color:var(--ink);
+  padding:16px;
+  font-family:var(--font-body);
+  text-align:left;
+}
+button.tile{cursor:pointer;transition:transform .12s ease;}
+button.tile:active{transform:scale(.975);}
+.tile-wide{grid-column:1 / 3;}
+.tile-k{display:block;font-size:12px;font-weight:700;color:var(--ink-faint);}
+.tile small{display:block;font-size:12.5px;color:var(--ink-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tile-big{display:block;margin-top:22px;font-size:20px;font-weight:700;letter-spacing:-.4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tile-num{display:block;margin-top:14px;font-size:30px;font-weight:700;letter-spacing:-1px;font-variant-numeric:tabular-nums;}
+
+/* 지금: 큰 시각 + 지금 하는 일 */
+.tile-now{grid-column:1 / 3;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding:18px;}
+.tile-now-left{flex-shrink:0;}
+.tile-time{display:block;margin-top:8px;font-size:54px;font-weight:600;letter-spacing:-2px;line-height:.95;font-variant-numeric:tabular-nums;}
+.tile-now-right{min-width:0;text-align:right;padding-bottom:2px;}
+.tile-now-right b{display:block;font-size:16px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tile-now-right b.has-cat::before{
+  content:"";display:inline-block;vertical-align:middle;
+  width:9px;height:9px;margin:-2px 7px 0 0;border-radius:50%;
+  background:var(--cat-color);
+}
+.tile-now-right small{margin-top:2px;}
+
+/* 다음: 카테고리 색으로 채운다 (색·글자색은 home.js 가 인라인으로) */
+.tile-next:not(.empty) .tile-k,
+.tile-next:not(.empty) small{color:inherit;opacity:.68;}
+.tile-next small{font-weight:600;}
+
+/* 하루 띠: 0~24시를 가로 한 줄로 */
+.day-strip{display:block;position:relative;height:34px;border-radius:12px;background:var(--surface-strong);margin:12px 0 6px;}
+.day-strip span{position:absolute;top:0;bottom:0;border-radius:6px;}
+.day-strip em{position:absolute;top:-4px;bottom:-4px;width:2px;margin-left:-1px;border-radius:1px;background:var(--ink);}
+.day-scale{display:flex;justify-content:space-between;font-size:10.5px;color:var(--ink-faint);font-variant-numeric:tabular-nums;}
+
+/* 계획 비율 */
+.plan-bar{display:flex;gap:2px;height:10px;margin:12px 0 10px;}
+.plan-bar span{border-radius:5px;min-width:6px;}
+.plan-bar[hidden] + .plan-legend{margin-top:10px;}
+.plan-legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--ink-dim);}
+.plan-legend i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;}
