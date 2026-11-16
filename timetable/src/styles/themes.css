@@ -56,14 +56,14 @@
   --danger:#c24d3f; --danger-rgb:194,77,63; --on-danger:#fffcec; --holiday:#cc4b38;
 }
 
-/* 파스텔(id neo-pastel) — 색은 셋만: 깨끗한 핑크크림 #FCF0F4 바탕 + 자두 #45344F 글자 + 세이지 #9CAF88 포인트 (라이트)
+/* 파스텔(id neo-pastel) — 색은 셋만: 깨끗한 핑크크림 #FCF0F4 바탕 + 자두 #45344F 글자 + 핑크 #F0B3CB 포인트 (라이트)
    카드는 글자색(자두)을 얹으면 회보라빛으로 탁해져서, 조금 더 짙은 핑크를 얹는다 */
 :root[data-theme="neo-pastel"]{
   color-scheme:light;
   --bg:#fcf0f4;
   --ink:#45344f; --ink-rgb:69,52,79;
-  --accent:#9caf88; --accent-rgb:156,175,136; --accent-hi:#b2c2a1; --accent-ink:#45344f;
-  --accent-text:#5f7a4e;
+  --accent:#f0b3cb; --accent-rgb:240,179,203; --accent-hi:#f5c8da; --accent-ink:#45344f;
+  --accent-text:#a8457a;
   --sheet:#fffafc;
   --shade:rgba(60,35,50,.3); --pop-rgb:255,250,252; --bar-rgb:250,229,238; --shadow:rgba(69,52,79,.14);
   --clock-rim:rgba(69,52,79,.25);
@@ -71,5 +71,3 @@
   --surface:rgba(238,160,195,.2); --surface-strong:rgba(238,160,195,.38); --surface-soft:rgba(238,160,195,.11);
   --danger:#b8506a; --danger-rgb:184,80,106; --on-danger:#ffffff; --holiday:#c4506a;
 }
-/* 파스텔: 아래 + 버튼만은 세이지 대신 핑크 (탭바와 같은 계열로) */
-:root[data-theme="neo-pastel"] .fab{background:#f0b3cb;color:var(--ink);}
