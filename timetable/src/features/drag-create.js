@@ -10,14 +10,15 @@ const STEP = 5; // 5분 단위로 맞춘다
 const LONG_PRESS_MS = 320;
 const MOVE_CANCEL_PX = 9;
 const MIN_DRAG_MIN = 20; // 거의 안 끌었으면 30분짜리 블록
-const DOUBLE_TAP_MS = 320; // 첫 번째 톡을 뗀 뒤 이 안에 다시 닿으면 두 번 톡
-const DOUBLE_TAP_PX = 32; // 두 번째 톡이 첫 번째 자리에서 이만큼 안이어야 한다
+const DOUBLE_TAP_MS = 450; // 첫 번째 톡을 뗀 뒤 이 안에 다시 닿으면 두 번 톡 (손가락은 생각보다 느리다)
+const DOUBLE_TAP_PX = 44; // 두 번째 톡이 첫 번째 자리에서 이만큼 안이어야 한다
 
 export function initDragCreate({ openNewSheet }) {
   const wrap = $("timelineWrap");
   let pressTimer = null;
   let pressStartX = 0;
   let pressStartY = 0;
+  let pressStartT = 0;
   let dragging = false;
   let anchorMin = 0;
   let currentMin = 0;
@@ -84,6 +85,7 @@ export function initDragCreate({ openNewSheet }) {
     if (e.pointerType === "mouse" && e.button !== 0) return;
     pressStartX = e.clientX;
     pressStartY = e.clientY;
+    pressStartT = performance.now();
     activePointerId = e.pointerId;
     clearTimeout(pressTimer);
 
@@ -99,7 +101,7 @@ export function initDragCreate({ openNewSheet }) {
     }
     // 터치/펜: 두 번 톡이면 두 번째 손가락이 닿은 자리에서 바로 시작
     // (끌기 중 스크롤은 아래 touchmove 에서 막는다 — 이 레이어는 touch-action:pan-y 라 두 번 톡 확대도 일어나지 않는다)
-    if (lastTap && e.timeStamp - lastTap.t < DOUBLE_TAP_MS && Math.abs(e.clientX - lastTap.x) < DOUBLE_TAP_PX && Math.abs(e.clientY - lastTap.y) < DOUBLE_TAP_PX) {
+    if (lastTap && performance.now() - lastTap.t < DOUBLE_TAP_MS && Math.abs(e.clientX - lastTap.x) < DOUBLE_TAP_PX && Math.abs(e.clientY - lastTap.y) < DOUBLE_TAP_PX) {
       lastTap = null;
       try {
         dragLayer.setPointerCapture(activePointerId);
@@ -144,11 +146,12 @@ export function initDragCreate({ openNewSheet }) {
   });
   dragLayer.addEventListener("pointerup", (e) => {
     // 끌기도, 스크롤로 움직이지도 않은 짧은 터치 = '톡' → 두 번 톡의 첫 번째로 기억해 둔다
-    const wasTap = e.pointerType !== "mouse" && !dragging && pressTimer !== null;
+    const wasTap =
+      e.pointerType !== "mouse" && !dragging && Math.abs(e.clientX - pressStartX) < DOUBLE_TAP_PX && Math.abs(e.clientY - pressStartY) < DOUBLE_TAP_PX && performance.now() - pressStartT < LONG_PRESS_MS;
     clearTimeout(pressTimer);
     pressTimer = null;
     if (dragging) endDrag(false);
-    lastTap = wasTap ? { x: e.clientX, y: e.clientY, t: e.timeStamp } : null;
+    lastTap = wasTap ? { x: e.clientX, y: e.clientY, t: performance.now() } : null; // 일부 웹뷰는 이벤트 timeStamp 기준이 달라 직접 잰다
   });
   dragLayer.addEventListener("pointercancel", () => {
     lastTap = null;

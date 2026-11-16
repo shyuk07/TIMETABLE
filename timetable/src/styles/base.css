@@ -41,6 +41,8 @@
 }
 
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+/* 두 번 톡 확대를 끈다 — 타임라인의 "두 번 톡 해서 끌기"가 확대로 가로채이지 않게 (손가락 두 개로 확대는 그대로 된다) */
+html{touch-action:manipulation;}
 body{
   margin:0;
   font-family:var(--font-body);
