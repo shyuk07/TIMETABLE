@@ -42,8 +42,6 @@
 }
 /* 선택된 카테고리는 카테고리별 색 대신 테마의 강조색 하나로 통일 */
 .chip[data-active="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);}
-/* 버건디 테마(id ember)는 강조색(짙은 브라운)이 시트 바탕과 비슷해서, 고른 칩에 밝은 테두리를 둘러 구분한다 */
-:root[data-theme="ember"] .chip[data-active="true"]{border-color:rgba(var(--ink-rgb),.55);}
 .chip.delete-armed{
   animation:chip-armed-pulse .5s ease-in-out infinite alternate;
 }

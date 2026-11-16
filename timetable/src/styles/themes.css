@@ -14,16 +14,18 @@
 
 /* 블랙(기본)은 base.css 의 :root — 뉴트럴 블랙 바탕, 그레이 글자·그레이 강조 */
 
-/* 버건디(id ember) — 버건디 #3B1219 바탕 + 짙은 브라운 #2B2119 원·버튼, 크림 글자 (다크)
-   짙은 브라운은 버건디 위 글자·선으로는 안 보여서, 강조 글자·현재 시각선은 밝은 브라운으로 따로 둔다 */
+/* 버건디(id ember) — 버건디 #3B1219 바탕 + 핑크크림 #F6E1DC 글자 + 로즈 #D9A0A6 포인트 (다크)
+   버건디 계열 하나로 통일 — 포인트가 밝아서 따로 강조 글자색을 둘 필요가 없다 */
 :root[data-theme="ember"]{
   --bg:#3b1219;
-  --ink:#f6e7e0; --ink-rgb:246,231,224;
-  --accent:#2b2119; --accent-rgb:43,33,25; --accent-hi:#3a2c22; --accent-ink:#f6e7e0;
-  --accent-text:#d6ae82;
-  --clock-rim:rgba(246,231,224,.25);
+  --ink:#f6e1dc; --ink-rgb:246,225,220;
+  --accent:#d9a0a6; --accent-rgb:217,160,166; --accent-hi:#e6b6bb; --accent-ink:#3b1219;
+  --accent-text:#e6b0b6;
+  --clock-rim:rgba(246,225,220,.25);
   --sheet:#2c0d12;
   --shade:rgba(15,3,5,.55); --pop-rgb:44,13,18; --bar-rgb:34,9,13; --shadow:rgba(10,2,3,.55);
+  --surface:rgba(246,225,220,.07); --surface-strong:rgba(246,225,220,.13); --surface-soft:rgba(246,225,220,.04);
+  --danger:#f08a7a; --danger-rgb:240,138,122; --on-danger:#3b1219; --holiday:#f2a08f;
 }
 
 /* 화이트 — 깨끗한 흰 바탕 #FCFCFB + 에스프레소 #2E2723 글자·강조, 카드는 아주 옅은 웜그레이 (라이트) */

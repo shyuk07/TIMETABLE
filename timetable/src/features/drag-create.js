@@ -1,5 +1,6 @@
-// 타임라인을 길게 누른 채 위/아래로 끌어 시간 범위를 고르고, 손을 떼면 그 범위가 채워진 '새 일정' 시트가 열린다.
-// (예: 3시부터 5시까지 드래그)
+// 타임라인에서 시간 범위를 끌어 고르고, 손을 떼면 그 범위가 채워진 '새 일정' 시트가 열린다. (예: 3시부터 5시까지)
+// 터치: 두 번 톡 — 두 번째로 닿은 손가락을 떼지 않고 그대로 위/아래로 끈다. (길게 눌러도 시작된다)
+// 마우스: 누르자마자 끌기 시작.
 
 import { DAY_START, DAY_END, PX_PER_MIN, fmtHHMM } from "../lib/dates.js";
 import { dragLayer, selectionBox, selectionLabel } from "./timeline.js";
@@ -9,6 +10,8 @@ const STEP = 5; // 5분 단위로 맞춘다
 const LONG_PRESS_MS = 320;
 const MOVE_CANCEL_PX = 9;
 const MIN_DRAG_MIN = 20; // 거의 안 끌었으면 30분짜리 블록
+const DOUBLE_TAP_MS = 320; // 첫 번째 톡을 뗀 뒤 이 안에 다시 닿으면 두 번 톡
+const DOUBLE_TAP_PX = 32; // 두 번째 톡이 첫 번째 자리에서 이만큼 안이어야 한다
 
 export function initDragCreate({ openNewSheet }) {
   const wrap = $("timelineWrap");
@@ -19,6 +22,7 @@ export function initDragCreate({ openNewSheet }) {
   let anchorMin = 0;
   let currentMin = 0;
   let activePointerId = null;
+  let lastTap = null; // 직전 '톡'(짧게 닿았다 뗀 터치): {x, y, t}
 
   dragLayer.style.touchAction = "pan-y";
 
@@ -93,7 +97,19 @@ export function initDragCreate({ openNewSheet }) {
       beginDrag(pressStartY);
       return;
     }
-    // 터치/펜: 잠깐 눌러야 시작 — 평범한 스크롤 스와이프가 일정 생성으로 오인되지 않도록
+    // 터치/펜: 두 번 톡이면 두 번째 손가락이 닿은 자리에서 바로 시작
+    // (끌기 중 스크롤은 아래 touchmove 에서 막는다 — 이 레이어는 touch-action:pan-y 라 두 번 톡 확대도 일어나지 않는다)
+    if (lastTap && e.timeStamp - lastTap.t < DOUBLE_TAP_MS && Math.abs(e.clientX - lastTap.x) < DOUBLE_TAP_PX && Math.abs(e.clientY - lastTap.y) < DOUBLE_TAP_PX) {
+      lastTap = null;
+      try {
+        dragLayer.setPointerCapture(activePointerId);
+      } catch (err) {
+        /* noop */
+      }
+      beginDrag(pressStartY);
+      return;
+    }
+    // 그 밖에는 잠깐(길게) 눌러야 시작 — 평범한 스크롤 스와이프가 일정 생성으로 오인되지 않도록
     pressTimer = setTimeout(() => {
       try {
         dragLayer.setPointerCapture(activePointerId);
@@ -126,12 +142,16 @@ export function initDragCreate({ openNewSheet }) {
       pressTimer = null;
     }
   });
-  dragLayer.addEventListener("pointerup", () => {
+  dragLayer.addEventListener("pointerup", (e) => {
+    // 끌기도, 스크롤로 움직이지도 않은 짧은 터치 = '톡' → 두 번 톡의 첫 번째로 기억해 둔다
+    const wasTap = e.pointerType !== "mouse" && !dragging && pressTimer !== null;
     clearTimeout(pressTimer);
     pressTimer = null;
     if (dragging) endDrag(false);
+    lastTap = wasTap ? { x: e.clientX, y: e.clientY, t: e.timeStamp } : null;
   });
   dragLayer.addEventListener("pointercancel", () => {
+    lastTap = null;
     clearTimeout(pressTimer);
     pressTimer = null;
     if (dragging) endDrag(true);

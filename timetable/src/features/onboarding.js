@@ -36,7 +36,7 @@ export function initOnboarding() {
         <h1 class="ob-title">이렇게 써요</h1>
         <p class="ob-desc">세 가지만 기억하면 돼요.</p>
         <div class="ob-tips">
-          <div class="ob-tip"><b>일정 만들기</b><span>타임라인을 길게 누른 채 위아래로 끌어 시간을 고르거나, + 버튼을 눌러요.</span></div>
+          <div class="ob-tip"><b>일정 만들기</b><span>타임라인을 두 번 톡 한 채로 위아래로 끌어 시간을 고르거나, + 버튼을 눌러요.</span></div>
           <div class="ob-tip"><b>날짜 이동</b><span>아래 캘린더 탭에서 날짜를 고르면 그날의 타임라인으로 가요. 일정이 있는 날엔 점이 찍혀요.</span></div>
           <div class="ob-tip"><b>돌아보기</b><span>통계 탭에서 카테고리별로 일·주·월·년 사용 시간을 볼 수 있어요.</span></div>
         </div>`;

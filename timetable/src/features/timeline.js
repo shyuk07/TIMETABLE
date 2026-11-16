@@ -53,7 +53,7 @@ function requestMaskUpdate() {
 function updateEmptyNote() {
   emptyNote.textContent =
     (state.viewDateStr === todayStr() ? "오늘" : "이 날짜에") +
-    " 등록된 일정이 없어요. + 버튼을 누르거나, 타임라인을 길게 눌러 원하는 시간까지 드래그해 보세요.";
+    " 등록된 일정이 없어요. + 버튼을 누르거나, 타임라인을 두 번 톡 한 채로 원하는 시간까지 끌어 보세요.";
 }
 
 function updateDateHeader() {
