@@ -10,7 +10,7 @@ import { initTimeline, activateTimeline, onItemClick } from "./features/timeline
 import { initScheduleSheet } from "./features/schedule-sheet.js";
 import { initDragCreate } from "./features/drag-create.js";
 import { initCalendar } from "./features/calendar.js";
-import { initHome } from "./features/home.js";
+import { initHome, setMode } from "./features/home.js";
 import { initStats } from "./features/stats.js";
 import { initSettings } from "./features/settings.js";
 import { initAuthView } from "./features/auth-view.js";
@@ -43,7 +43,7 @@ async function boot() {
   initDragCreate({ openNewSheet: scheduleSheet.openNew });
   const calendar = initCalendar();
   const stats = initStats();
-  const home = initHome({ openCalendar: () => calendar.open() });
+  const home = initHome({ openCalendar: () => go("calendar") });
   const auth = initAuthView({ repo });
   const onboarding = initOnboarding();
   const settings = initSettings({
@@ -60,21 +60,22 @@ async function boot() {
   // 설정(계정에 저장된 값)이 로드·변경될 때마다 테마를 화면에 적용
   bus.on("settings", () => applyTheme(state.settings.theme));
 
-  // ---- 탭바 / 헤더 ----
-  const closeSheets = () => [calendar, stats, settings].forEach((s) => s.close());
-  document.querySelectorAll(".tab-item").forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const t = tab.dataset.tab;
-      closeSheets();
-      if (t === "home") home.showHome();
-      else if (t === "calendar") calendar.open();
-      else if (t === "stats") stats.open();
-      else if (t === "settings") settings.open();
-    });
-  });
-  $("menuBtn").addEventListener("click", () => {
-    closeSheets();
-    settings.open();
+  // ---- 하단 탭 / 설정 메뉴 ----
+  // 탭(홈 · 타임라인 · 캘린더 · 통계)은 어느 화면에서든 늘 보이고, 누르면 그 화면으로 바로 바뀐다.
+  // 설정은 오른쪽 위 메뉴(선 3개)로만 연다 — 탭을 누르면 설정은 닫히고 그 화면으로 간다.
+  const pages = { calendar, stats };
+  function go(tab) {
+    settings.close();
+    Object.entries(pages).forEach(([k, pg]) => k !== tab && pg.close());
+    if (tab === "home") return home.showHome();
+    if (tab === "timeline") return home.showTimeline();
+    setMode(tab);
+    window.scrollTo(0, 0);
+    pages[tab].open();
+  }
+  document.querySelectorAll(".tab-item").forEach((tab) => tab.addEventListener("click", () => go(tab.dataset.tab)));
+  document.addEventListener("click", (e) => {
+    if (e.target.closest("[data-menu]")) settings.open();
   });
 
   // ---- 라우팅 ----
@@ -85,7 +86,7 @@ async function boot() {
   async function enterApp() {
     mainView.hidden = false;
     entered = true;
-    home.showHome(); // 시작 화면은 홈. 타임라인은 타일을 눌러 들어간다
+    home.showHome(); // 시작 화면은 홈
     activateTimeline();
     await setViewDate(new Date());
     activateTimeline(); // 일정까지 그린 뒤 '지금' 위치로 한 번 더 맞춘다

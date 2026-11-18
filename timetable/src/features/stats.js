@@ -208,6 +208,5 @@ export function initStats() {
     cards.forEach((c) => c.paint());
   }
 
-  $("statsCloseBtn").addEventListener("click", ctl.close);
   return { open, close: ctl.close };
 }

@@ -84,40 +84,36 @@
 <div id="mainView" data-mode="home" hidden>
 <!-- 홈(벤토): 요일 줄 + 타일. 타일을 누르면 아래 타임라인으로 들어간다 (src/features/home.js) -->
 <div class="home" id="homeView">
-  <div class="home-date" id="homeDate"></div>
-  <div class="week-strip" id="homeWeek"></div>
-  <div class="bento">
-    <button type="button" class="tile tile-now" id="homeNow">
-      <span class="tile-now-left"><span class="tile-k">지금</span><span class="tile-time" id="homeNowTime">--:--</span></span>
-      <span class="tile-now-right"><b id="homeNowTitle"></b><small id="homeNowSub"></small></span>
-    </button>
-    <button type="button" class="tile tile-next" id="homeNext"></button>
-    <button type="button" class="tile tile-dday" id="homeDday"></button>
-    <button type="button" class="tile tile-wide" id="homeDay">
-      <span class="tile-k" id="homeDayLabel">오늘 하루</span>
-      <span class="day-strip" id="homeStrip"></span>
-      <span class="day-scale"><span>0</span><span>6</span><span>12</span><span>18</span><span>24</span></span>
-    </button>
-    <div class="tile tile-wide" id="homePlan">
-      <div class="tile-k" id="homePlanLabel">오늘 계획</div>
-      <div class="plan-bar" id="homePlanBar"></div>
-      <div class="plan-legend" id="homePlanLegend"></div>
-    </div>
+  <div class="page-top">
+    <div class="home-date" id="homeDate"></div>
+    <button class="menu-btn" type="button" data-menu aria-label="설정 열기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
   </div>
+  <div class="week-strip" id="homeWeek"></div>
+  <button type="button" class="hero" id="homeHero">
+    <span class="hero-k" id="heroLabel">지금</span>
+    <span class="hero-time" id="homeNowTime">--:--</span>
+    <span class="hero-main" id="heroMain"></span>
+    <span class="hero-sub" id="heroSub"></span>
+    <span class="hero-bar" id="heroBar" hidden><i></i></span>
+    <span class="hero-next" id="heroNext" hidden></span>
+  </button>
+  <button type="button" class="card card-day" id="homeDay">
+    <span class="card-head"><span class="card-k" id="homeDayLabel">오늘 하루</span><span class="card-total" id="homeDayTotal"></span></span>
+    <span class="day-strip" id="homeStrip"></span>
+    <span class="day-scale"><span>0</span><span>6</span><span>12</span><span>18</span><span>24</span></span>
+    <span class="day-legend" id="homeLegend"></span>
+  </button>
+  <button type="button" class="card card-row" id="homeDday"></button>
 </div>
-
 <div class="app-header" id="appHeader">
   <div class="topbar">
     <div class="brand">
-      <button class="back-btn" id="homeBtn" type="button" aria-label="홈으로">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
-      </button>
       <span class="brand-date" id="dateLabel"></span>
       <button class="today-chip" id="todayChip" hidden aria-label="오늘로 돌아가기">돌아가기</button>
       <span class="dday-chip" id="ddayChip" hidden></span>
       <span class="dday-chip" id="memoChip" hidden></span>
     </div>
-    <button class="menu-btn" id="menuBtn" type="button" aria-label="설정 열기">
+    <button class="menu-btn" id="menuBtn" type="button" data-menu aria-label="설정 열기">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
     </button>
   </div>
@@ -141,6 +137,9 @@
 <div class="dock">
 <nav class="tabbar">
   <button class="tab-item active" data-tab="home" aria-label="홈">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5L12 4l8 6.5V19a1.5 1.5 0 0 1-1.5 1.5H15v-5.5H9v5.5H5.5A1.5 1.5 0 0 1 4 19z"/></svg>
+  </button>
+  <button class="tab-item" data-tab="timeline" aria-label="타임라인">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 1.8"/></svg>
   </button>
   <button class="tab-item" data-tab="calendar" aria-label="캘린더">
@@ -148,9 +147,6 @@
   </button>
   <button class="tab-item" data-tab="stats" aria-label="통계">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M12 20V4M20 20v-7"/></svg>
-  </button>
-  <button class="tab-item" data-tab="settings" aria-label="설정">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><circle cx="9" cy="6" r="2"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="15" cy="12" r="2"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="10" cy="18" r="2"/></svg>
   </button>
 </nav>
 <button class="fab" id="addBtn" aria-label="일정 추가">
@@ -239,13 +235,10 @@
 </div>
 
 <div class="cal-backdrop" id="calBackdrop" hidden></div>
-<div class="cal-sheet" id="calSheet" hidden>
-  <div class="sheet-handle cal-handle"></div>
+<div class="cal-sheet page" id="calSheet" hidden>
   <div class="cal-header">
     <div class="cal-title" id="calTitle"></div>
-    <button class="cal-close" id="calCloseBtn" aria-label="캘린더 닫기">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-    </button>
+    <button class="menu-btn" type="button" data-menu aria-label="설정 열기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
   </div>
   <div class="cal-month-row">
     <div class="cal-month-label" id="calMonthLabel"></div>
@@ -309,24 +302,20 @@
 </div>
 
 <div class="stats-backdrop" id="statsBackdrop" hidden></div>
-<div class="stats-sheet" id="statsSheet" hidden>
+<div class="stats-sheet page" id="statsSheet" hidden>
   <div class="stats-header">
     <div class="stats-title">통계</div>
-    <button class="cal-close" id="statsCloseBtn" aria-label="통계 닫기">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-    </button>
+    <button class="menu-btn" type="button" data-menu aria-label="설정 열기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
   </div>
   <div class="stats-body" id="statsBody"></div>
 </div>
 
 
 <div class="set-backdrop" id="settingsBackdrop" hidden></div>
-<div class="set-sheet" id="settingsSheet" hidden>
+<div class="set-sheet page page-over" id="settingsSheet" hidden>
   <div class="stats-header">
     <div class="stats-title">설정</div>
-    <button class="cal-close" id="settingsCloseBtn" aria-label="설정 닫기">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-    </button>
+    <button class="cal-close" id="settingsCloseBtn" type="button" aria-label="설정 닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   </div>
   <div class="set-body" id="settingsBody"></div>
 </div>

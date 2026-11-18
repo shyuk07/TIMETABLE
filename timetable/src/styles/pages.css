@@ -1,0 +1,28 @@
+/* ---------- 화면(page): 캘린더 · 통계 · 설정 ----------
+   예전엔 아래에서 올라오는 창(시트)이었지만, 화면을 옮겨 다니는 메뉴라 전체 화면으로 바꿨다.
+   (아래에서 올라오는 창은 일정·디데이 추가처럼 잠깐 입력하는 데만 쓴다)
+   하단 탭(.dock, z-index 20)은 이 화면들 위에 늘 보인다. */
+.cal-sheet.page,
+.stats-sheet.page,
+.set-sheet.page{
+  top:0;bottom:0;
+  height:auto;
+  max-height:none;
+  border-radius:0;
+  box-shadow:none;
+  background:var(--bg);
+  padding:calc(18px + env(safe-area-inset-top, 0px)) 20px calc(120px + env(safe-area-inset-bottom, 0px));
+  z-index:13;
+  overscroll-behavior:contain;
+}
+/* 설정은 메뉴(선 3개)로 여는 화면 — 다른 화면 위에 덮인다 (그래도 하단 탭 아래) */
+.set-sheet.page-over{z-index:16;}
+
+/* 화면이라 뒤를 가리는 반투명 막은 쓰지 않는다 */
+#calBackdrop,#statsBackdrop,#settingsBackdrop{display:none !important;}
+
+/* 맨 위 줄: 제목 + 오른쪽 메뉴 버튼 (홈의 .page-top 과 같은 높이) */
+.page .cal-header,
+.page .stats-header{min-height:36px;margin-bottom:18px;cursor:default;}
+.page .cal-title,
+.page .stats-title{font-size:24px;}

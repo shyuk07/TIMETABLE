@@ -14,3 +14,4 @@ import "./stats.css";
 import "./tabbar.css";
 import "./screens.css";
 import "./settings.css";
+import "./pages.css";

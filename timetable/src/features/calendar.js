@@ -1,10 +1,10 @@
-// 캘린더 시트(날짜 선택). 주 시작 요일은 설정을 따르고, 일정이 있는 날에는 점이 찍힌다.
+// 캘린더 화면(날짜 선택). 주 시작 요일은 설정을 따르고, 일정이 있는 날에는 점이 찍힌다.
 
 import { state, bus } from "../state/store.js";
 import { setViewDate } from "../state/actions.js";
 import { toDateStr, todayStr, fromDateStr, fmtDateLabel, weekdayLabels, ddayLabel } from "../lib/dates.js";
 import { HOLIDAYS, monthHolidaySummary } from "../lib/holidays.js";
-import { $, sheetController, escapeHtml, enableSwipeDown } from "../lib/dom.js";
+import { $, sheetController, escapeHtml } from "../lib/dom.js";
 import { initDdaySheet } from "./dday-sheet.js";
 
 export function initCalendar() {
@@ -167,9 +167,6 @@ export function initCalendar() {
     calMonthDate = new Date(calMonthDate.getFullYear(), calMonthDate.getMonth() + 1, 1);
     renderGrid();
   });
-  $("calCloseBtn").addEventListener("click", ctl.close);
-  // 아래로 쓸어내려 닫기 (마우스는 맨 위 날짜 제목 줄을 잡고)
-  enableSwipeDown(calSheet, ctl.close, { handleSelector: ".cal-handle, .cal-header" });
   bus.on("settings", () => ctl.isOpen() && renderGrid());
 
   return { open, close: ctl.close };

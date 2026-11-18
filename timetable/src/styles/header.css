@@ -34,15 +34,6 @@
   min-height:24px;
 }
 .brand-date{white-space:nowrap;}
-/* 타임라인 → 홈으로 돌아가는 버튼 */
-.back-btn{
-  width:28px;height:28px;margin-left:-8px;margin-right:-4px;
-  border:none;background:none;padding:0;cursor:pointer;
-  color:var(--ink);
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;
-}
-.back-btn svg{width:20px;height:20px;}
 .brand-mark{
   font-family:var(--font-display);
   font-style:italic;

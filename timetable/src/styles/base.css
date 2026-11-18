@@ -73,3 +73,8 @@ input, textarea{
   padding-bottom:96px;
   padding-top:var(--header-h, 148px);
 }
+
+/* 스크롤바 숨김 — 화면마다 스크롤바가 생겼다 없어지며(타임라인·통계는 길고 홈·캘린더는 짧다)
+   가운데 정렬된 내용과 하단 탭이 좌우로 흔들리던 것을 막는다. 스크롤 자체는 그대로 된다 */
+html,.page{scrollbar-width:none;}
+html::-webkit-scrollbar,.page::-webkit-scrollbar{display:none;}
