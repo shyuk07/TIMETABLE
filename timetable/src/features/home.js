@@ -1,5 +1,5 @@
-// 홈 화면: 요일 줄 → 지금 카드(가장 크게) → 오늘 하루(띠 + 카테고리별 시간) → 디데이 한 줄.
-// 위에서 아래로 중요한 순서. 지금 카드·하루 카드를 누르면 타임라인 탭으로 간다.
+// 홈 화면: 요일 줄 → 지금 시각(가장 크게, 시각만) → 오늘 하루(지금 하는 일·다음 일정 + 띠 + 카테고리별 시간) → 디데이 한 줄.
+// 위에서 아래로 중요한 순서. 오늘 하루 카드를 누르면 타임라인 탭으로 간다.
 //
 // 화면 전환은 #mainView 의 data-mode 하나로 한다: "home" | "timeline" | "calendar" | "stats"
 // (CSS 가 보이고 숨길 것을 정하고, 하단 탭의 선택 표시도 같은 값을 따른다 — setMode)
@@ -38,7 +38,7 @@ function span(item) {
 
 export function initHome({ openCalendar }) {
   const isToday = () => state.viewDateStr === todayStr();
-  let heroMin = null; // 지금 카드를 누르면 타임라인에서 이 시각으로 간다
+  let heroMin = null; // 오늘 하루 카드를 누르면 타임라인에서 이 시각(지금/다음 일정)으로 간다
 
   function renderWeek() {
     const ws = state.settings.weekStart || 0;
@@ -54,7 +54,7 @@ export function initHome({ openCalendar }) {
 
   const dot = (cat) => `<i class="hero-dot" style="background:${cat.bg}"></i>`;
 
-  /** 지금 카드: 큰 시각 + 지금 하는 일(남은 시간·진행 막대) + 다음 일정 한 줄 */
+  /** 지금 시각(위 카드) + 오늘 하루 카드 윗부분: 지금 하는 일(남은 시간·진행 막대) + 다음 일정 한 줄 */
   function renderHero() {
     const d = new Date();
     $("homeNowTime").textContent = pad2(d.getHours()) + ":" + pad2(d.getMinutes());
@@ -67,9 +67,8 @@ export function initHome({ openCalendar }) {
     heroMin = null;
 
     if (!isToday()) {
-      $("heroLabel").textContent = "다른 날짜 보는 중";
-      main.textContent = fmtDateLabel(state.viewDate);
-      sub.textContent = "눌러서 오늘로 돌아가기";
+      main.textContent = "다른 날짜 보는 중";
+      sub.textContent = "위 요일 줄에서 오늘을 누르면 돌아가요";
       const first = state.items[0];
       if (first) {
         next.hidden = false;
@@ -78,7 +77,6 @@ export function initHome({ openCalendar }) {
       return;
     }
 
-    $("heroLabel").textContent = "지금";
     const m = minsNow();
     const cur = state.items.find((it) => {
       const [s, e] = span(it);
@@ -170,11 +168,7 @@ export function initHome({ openCalendar }) {
       setViewDate(new Date(y, m - 1, d));
     }
   });
-  $("homeHero").addEventListener("click", () => {
-    if (!isToday()) setViewDate(new Date());
-    else showTimeline(heroMin == null ? undefined : heroMin);
-  });
-  $("homeDay").addEventListener("click", () => showTimeline());
+  $("homeDay").addEventListener("click", () => showTimeline(isToday() && heroMin != null ? heroMin : undefined));
   $("homeDday").addEventListener("click", openCalendar);
 
   ["items", "categories", "viewdate", "ddays", "settings", "daychange"].forEach((ev) => bus.on(ev, render));

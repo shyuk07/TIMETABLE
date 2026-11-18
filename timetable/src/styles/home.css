@@ -48,14 +48,15 @@
   cursor:pointer;
   transition:transform .12s ease;
 }
-.hero:active,.card:active{transform:scale(.98);}
+.card:active{transform:scale(.98);}
+.hero{cursor:default;} /* 시각만 보여 주는 카드 — 누르는 기능 없음 */
 
-/* 지금 카드: 화면에서 가장 크다 */
-.hero{padding:20px 20px 18px;}
+/* 지금 시각: 화면에서 가장 크다 (시각만) */
+.hero{padding:20px 20px 22px;}
 .hero > span{display:block;}
 .hero-k{font-size:13px;font-weight:600;color:var(--ink-faint);}
 .hero-time{margin-top:6px;font-size:64px;font-weight:600;letter-spacing:-2.4px;line-height:1;font-variant-numeric:tabular-nums;}
-.hero-main{margin-top:18px;font-size:22px;font-weight:700;letter-spacing:-.4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.hero-main{margin-top:12px;font-size:21px;font-weight:700;letter-spacing:-.4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .hero-sub{margin-top:4px;font-size:13.5px;color:var(--ink-dim);font-variant-numeric:tabular-nums;}
 .hero-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 8px 0 0;vertical-align:middle;position:relative;top:-2px;}
 .hero-bar{height:6px;margin-top:14px;border-radius:3px;background:var(--surface-strong);overflow:hidden;}
@@ -72,13 +73,13 @@
 .hero-next b{flex:1;min-width:0;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .hero-next em{flex-shrink:0;margin-left:10px;font-style:normal;color:var(--ink-dim);font-variant-numeric:tabular-nums;}
 
-/* 오늘 하루: 띠 + 카테고리별 시간 */
+/* 오늘 하루: 지금 하는 일 · 다음 일정 + 띠 + 카테고리별 시간 */
 .card{margin-top:12px;padding:16px 18px;}
 .card > span{display:block;}
 .card-head{display:flex !important;justify-content:space-between;align-items:baseline;}
 .card-k{font-size:13px;font-weight:600;color:var(--ink-faint);}
 .card-total{font-size:13px;font-weight:600;color:var(--ink-dim);font-variant-numeric:tabular-nums;}
-.day-strip{position:relative;height:26px;border-radius:9px;background:var(--surface-strong);margin:12px 0 6px;}
+.day-strip{position:relative;height:26px;border-radius:9px;background:var(--surface-strong);margin:16px 0 6px;}
 .day-strip span{position:absolute;top:0;bottom:0;border-radius:5px;}
 .day-strip em{position:absolute;top:-3px;bottom:-3px;width:2px;margin-left:-1px;border-radius:1px;background:var(--ink);}
 .day-scale{display:flex !important;justify-content:space-between;font-size:10.5px;color:var(--ink-faint);font-variant-numeric:tabular-nums;}

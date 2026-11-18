@@ -89,16 +89,16 @@
     <button class="menu-btn" type="button" data-menu aria-label="설정 열기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
   </div>
   <div class="week-strip" id="homeWeek"></div>
-  <button type="button" class="hero" id="homeHero">
-    <span class="hero-k" id="heroLabel">지금</span>
+  <div class="hero" id="homeHero">
+    <span class="hero-k">지금</span>
     <span class="hero-time" id="homeNowTime">--:--</span>
+  </div>
+  <button type="button" class="card card-day" id="homeDay">
+    <span class="card-head"><span class="card-k" id="homeDayLabel">오늘 하루</span><span class="card-total" id="homeDayTotal"></span></span>
     <span class="hero-main" id="heroMain"></span>
     <span class="hero-sub" id="heroSub"></span>
     <span class="hero-bar" id="heroBar" hidden><i></i></span>
     <span class="hero-next" id="heroNext" hidden></span>
-  </button>
-  <button type="button" class="card card-day" id="homeDay">
-    <span class="card-head"><span class="card-k" id="homeDayLabel">오늘 하루</span><span class="card-total" id="homeDayTotal"></span></span>
     <span class="day-strip" id="homeStrip"></span>
     <span class="day-scale"><span>0</span><span>6</span><span>12</span><span>18</span><span>24</span></span>
     <span class="day-legend" id="homeLegend"></span>
